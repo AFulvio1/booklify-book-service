@@ -4,7 +4,6 @@ import com.afulvio.booklify.bookservice.dto.CategoryDto;
 import com.afulvio.booklify.bookservice.entity.Category;
 import com.afulvio.booklify.bookservice.mapper.CategoryMapper;
 import com.afulvio.booklify.bookservice.repository.CategoryRepository;
-import com.afulvio.booklify.bookservice.util.CategoryUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

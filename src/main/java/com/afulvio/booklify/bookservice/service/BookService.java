@@ -4,11 +4,10 @@ import com.afulvio.booklify.bookservice.dto.BookDto;
 import com.afulvio.booklify.bookservice.entity.Book;
 import com.afulvio.booklify.bookservice.mapper.BookMapper;
 import com.afulvio.booklify.bookservice.repository.BookRepository;
-import com.afulvio.booklify.bookservice.util.BookUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
