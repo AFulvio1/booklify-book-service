@@ -1,10 +1,10 @@
-FROM eclipse-temurin:17
+FROM amazoncorretto:21
 
 LABEL authors="afulvio"
 
 WORKDIR /app
 
-COPY target/book-service-0.0.1-SNAPSHOT.jar app.jar
+COPY target/bookEntity-service-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 

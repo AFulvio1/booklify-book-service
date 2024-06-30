@@ -1,11 +1,13 @@
 package com.afulvio.booklify.bookservice.controller;
 
+import com.afulvio.booklify.bookservice.dto.CategoryDTO;
+import com.afulvio.booklify.bookservice.dto.request.UpdateCategoryRequest;
+import com.afulvio.booklify.bookservice.dto.response.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import com.afulvio.booklify.bookservice.dto.CategoryDto;
 import com.afulvio.booklify.bookservice.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,43 +18,57 @@ import org.springframework.web.bind.annotation.*;
         name = "Categories APIs",
         description = "Create Category, Update Category, Get Category, Delete Category"
 )
+@RequiredArgsConstructor
 public class CategoryController {
 
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
-    @GetMapping("/get-category/{id}")
+    @GetMapping("/get/{id}")
     @Operation(summary = "Get Category by ID")
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
-    public ResponseEntity<CategoryDto> getCategory(
-            @PathVariable("id") String id
+    public ResponseEntity<GetCategoryResponse> getCategory(
+            @PathVariable("id") Long id
     ){
-        CategoryDto categoryDto = categoryService.getCategoryById(Integer.valueOf(id));
-        return new ResponseEntity<>(categoryDto, HttpStatus.OK);
+        GetCategoryResponse response = categoryService.getCategoryById(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/add-category")
+    @GetMapping("/get-all")
+    @Operation(summary = "Get all the Categories")
+    @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
+    public ResponseEntity<GetCategoriesResponse> getCategories(){
+        GetCategoriesResponse response = categoryService.getAllCategories();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/add")
     @Operation(summary = "Create a Category")
     @ApiResponse(responseCode = "201", description = "HTTP Status 201 CREATED")
-    public ResponseEntity<CategoryDto> saveCategory(
-            @RequestBody CategoryDto categoryDto
+    public ResponseEntity<AddCategoryResponse> saveCategory(
+            @RequestBody CategoryDTO categoryDto
     ){
-        CategoryDto savedCategory = categoryService.addCategory(categoryDto);
-        return new ResponseEntity<>(savedCategory, HttpStatus.CREATED);
+        AddCategoryResponse response = categoryService.addCategory(categoryDto);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/delete-category/{id}")
+    @DeleteMapping("/delete/{id}")
     @Operation(summary = "Delete Category by ID")
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
-    public ResponseEntity<Void> deleteCategory(
-            @PathVariable("id") String id
+    public ResponseEntity<DeleteCategoryResponse> deleteCategory(
+            @PathVariable("id") Long id
     ){
-        Void deletedCategory = categoryService.deleteCategoryById(Integer.valueOf(id));
-        return new ResponseEntity<>(deletedCategory, HttpStatus.OK);
+        DeleteCategoryResponse response = categoryService.deleteCategoryById(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
-    @Autowired
-    public void setCategoryService(CategoryService categoryService) {
-         this.categoryService = categoryService;
+    @PutMapping("/update")
+    @Operation(summary = "Delete Category by ID")
+    @ApiResponse(responseCode = "202", description = "HTTP Status 202 OK")
+    public ResponseEntity<UpdateCategoryResponse> updateCategory(
+            @RequestBody UpdateCategoryRequest request
+    ){
+        UpdateCategoryResponse response = categoryService.updateCategory(request);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
+
 }

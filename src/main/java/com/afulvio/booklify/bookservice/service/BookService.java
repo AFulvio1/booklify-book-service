@@ -1,12 +1,18 @@
 package com.afulvio.booklify.bookservice.service;
 
-import com.afulvio.booklify.bookservice.dto.BookDto;
-import com.afulvio.booklify.bookservice.entity.Book;
+import com.afulvio.booklify.bookservice.dto.BookDTO;
+import com.afulvio.booklify.bookservice.dto.request.AddBookRequest;
+import com.afulvio.booklify.bookservice.dto.response.AddBookResponse;
+import com.afulvio.booklify.bookservice.dto.response.DeleteBookResponse;
+import com.afulvio.booklify.bookservice.dto.response.GetBookResponse;
+import com.afulvio.booklify.bookservice.dto.response.GetBooksResponse;
+import com.afulvio.booklify.bookservice.entity.BookEntity;
 import com.afulvio.booklify.bookservice.mapper.BookMapper;
 import com.afulvio.booklify.bookservice.repository.BookRepository;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,57 +22,85 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class BookService {
 
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
-    public BookDto getBookById(Long id) {
-        log.info("Start searching a book");
-        Optional<Book> opt = bookRepository.findById(id);
-        if (opt.isPresent()) {
-            log.info("Book founded");
-            return BookMapper.MAPPER.mapBookToBookDto(opt.get());
+    private final BookMapper bookMapper;
+
+    @Transactional
+    public GetBookResponse getBookById(Long id) {
+        log.info("Start searching a book with ID: {}", id);
+        BookDTO book = BookDTO.builder().build();
+        try {
+            Optional<BookEntity> opt = bookRepository.findById(id);
+            if (opt.isPresent()) {
+                log.info("Book founded");
+                book = bookMapper.mapBookToBookDto(opt.get());
+            }
+            else log.info("Book not founded");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        log.info("Book not founded");
-        return BookDto.builder().build();
+        return new GetBookResponse(book);
     }
 
-    public List<BookDto> getAllBooks() {
+    @Transactional
+    public GetBooksResponse getAllBooks() {
         log.info("Start searching all book");
-        List<Book> bookList = bookRepository.findAll();
-        return CollectionUtils.isNotEmpty(bookList)
-                ? bookList.stream().map(BookMapper.MAPPER::mapBookToBookDto).collect(Collectors.toList())
-                : new ArrayList<>();
+        List<BookDTO> books = new ArrayList<>();
+        try {
+            List<BookEntity> entities = bookRepository.findAll();
+            if (CollectionUtils.isNotEmpty(entities))
+                books = entities.stream().map(bookMapper::mapBookToBookDto).collect(Collectors.toList());
+            else
+                log.warn("No books found");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return new GetBooksResponse(books);
     }
 
-    public BookDto addBook(BookDto bookDto) {
-        log.info("Start adding a book");
-        Book savedBook = bookRepository.save(BookMapper.MAPPER.mapBookDtoToBook(bookDto));
-        log.info("Book added");
-        return BookMapper.MAPPER.mapBookToBookDto(savedBook);
+    @Transactional
+    public AddBookResponse addBook(AddBookRequest request) {
+        BookDTO savedBook;
+        try {
+            log.info("Start adding a book");
+            BookEntity savedBookEntity = bookRepository.save(bookMapper.mapBookDtoToBook(request.getBookDTO()));
+            savedBook = bookMapper.mapBookToBookDto(savedBookEntity);
+            log.info("Book added");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return new AddBookResponse(savedBook);
     }
 
-    public Void deleteBookById(Long id) {
-        log.info("Start deleting a book");
-        bookRepository.deleteById(id);
-        log.info("Book deleted");
-        return null;
+    @Transactional
+    public DeleteBookResponse deleteBookById(Long id) {
+        try {
+            log.info("Start deleting a book with ID: {}", id);
+            bookRepository.deleteById(id);
+            log.info("Book deleted");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return new DeleteBookResponse();
     }
 
-    public List<Book> getAllBooksByCategory(int id) {
-        return bookRepository.findAllByCategory_id(id);
+    @Transactional
+    public List<BookEntity> getAllBooksByCategory(Long id) {
+        return bookRepository.findAllByCategory(id);
     }
 
-    public List<Book> getAllBooksByTitle(String keyword) {
+    @Transactional
+    public List<BookEntity> getAllBooksByTitle(String keyword) {
         return bookRepository.findByTitleContaining(keyword);
     }
 
-    public List<Book> getAllBooksByAuthor(String keyword) {
+    @Transactional
+    public List<BookEntity> getAllBooksByAuthor(String keyword) {
         return bookRepository.findByAuthorContaining(keyword);
     }
 
-    @Autowired
-    public void setBookRepository(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
-    }
 }

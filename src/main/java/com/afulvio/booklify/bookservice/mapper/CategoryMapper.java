@@ -1,20 +1,14 @@
 package com.afulvio.booklify.bookservice.mapper;
 
-import com.afulvio.booklify.bookservice.dto.CategoryDto;
-import com.afulvio.booklify.bookservice.entity.Category;
+import com.afulvio.booklify.bookservice.dto.CategoryDTO;
+import com.afulvio.booklify.bookservice.entity.CategoryEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface CategoryMapper {
 
-    CategoryMapper MAPPER = Mappers.getMapper(CategoryMapper.class);
+    CategoryEntity mapCategoryDtoToCategory(CategoryDTO categoryDto);
 
-    @Mapping(source = "name", target = "name")
-    Category mapCategoryDtoToCategory(CategoryDto categoryDto);
-
-    @Mapping(source = "name", target = "name")
-    CategoryDto mapCategoryToCategoryDto(Category category);
+    CategoryDTO mapCategoryToCategoryDto(CategoryEntity categoryEntity);
 
 }

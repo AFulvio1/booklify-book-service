@@ -2,39 +2,34 @@ spring:
     application:
         name: book-service
     datasource:
-        url: jdbc:postgresql://localhost:5432/booklify
+        url: jdbc:postgresql://localhost:5432/postgres
         username: postgres
         password: pgadmin
         driver-class-name: org.postgresql.Driver
     jpa:
-        hibernate:
-            ddl-auto: update
         show-sql: true
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
     main:
         web-application-type: reactive
-    session:
-        jdbc:
-            initialize-schema: always
 
 server:
     port: 8080
 
 management:
-    server:
-        port: 9090
     endpoints:
         web:
             exposure:
-                include: "*"
+                include: '*'
 
 logging:
     level:
-        web: DEBUG
+        sql: debug
+        org.hibernate.orm.jdbc.bind: trace
 
 springdoc:
     swagger-ui:
         enabled: true
+        path: /swagger-ui
     api-docs:
         enabled: true
-    show-actuator: true
-    use-management-port: true
+        path: /api-docs
