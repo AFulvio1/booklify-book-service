@@ -75,26 +75,36 @@ public class CategoryService {
 
     @Transactional
     public DeleteCategoryResponse deleteCategoryById(Long id) {
-        log.info("Start deleting a category with ID: {}", id);
-        categoryRepository.deleteById(id);
-        log.info("Category deleted");
-        return new DeleteCategoryResponse();
+        DeleteCategoryResponse response = null;
+        try {
+            log.info("Start deleting a category with ID: {}", id);
+            categoryRepository.deleteById(id);
+            response = new DeleteCategoryResponse(
+                    categoryMapper.mapCategoryToCategoryDto(categoryRepository.findById(id).orElse(new CategoryEntity()))
+            );
+            log.info("Category deleted");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return response;
     }
 
     @Transactional
     public UpdateCategoryResponse updateCategory(UpdateCategoryRequest request) {
+        UpdateCategoryResponse response = null;
         try {
             log.info("Start updating a category");
             Optional<CategoryEntity> entity = categoryRepository.findById(request.getCategory().getId());
             if (entity.isPresent()) {
                 log.info("Category founded for update");
                 categoryRepository.save(entity.get());
+                response = new UpdateCategoryResponse(categoryMapper.mapCategoryToCategoryDto(entity.get()));
             }
             else log.warn("Category not founded for update");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return new UpdateCategoryResponse();
+        return response;
     }
 
 }

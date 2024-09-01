@@ -8,5 +8,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class AddBookResponse {
 
-    private BookDTO bookDTO;
+    private BookDTO book;
 }

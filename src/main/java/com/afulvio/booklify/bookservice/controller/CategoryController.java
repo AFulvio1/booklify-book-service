@@ -27,7 +27,7 @@ public class CategoryController {
     @Operation(summary = "Get Category by ID")
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
     public ResponseEntity<GetCategoryResponse> getCategory(
-            @PathVariable("id") Long id
+            @PathVariable("id") final Long id
     ){
         GetCategoryResponse response = categoryService.getCategoryById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -45,7 +45,7 @@ public class CategoryController {
     @Operation(summary = "Create a Category")
     @ApiResponse(responseCode = "201", description = "HTTP Status 201 CREATED")
     public ResponseEntity<AddCategoryResponse> saveCategory(
-            @RequestBody CategoryDTO categoryDto
+            @RequestBody final CategoryDTO categoryDto
     ){
         AddCategoryResponse response = categoryService.addCategory(categoryDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -55,20 +55,20 @@ public class CategoryController {
     @Operation(summary = "Delete Category by ID")
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
     public ResponseEntity<DeleteCategoryResponse> deleteCategory(
-            @PathVariable("id") Long id
+            @PathVariable("id") final Long id
     ){
         DeleteCategoryResponse response = categoryService.deleteCategoryById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/update")
-    @Operation(summary = "Delete Category by ID")
+    @Operation(summary = "Update a Book")
     @ApiResponse(responseCode = "202", description = "HTTP Status 202 OK")
     public ResponseEntity<UpdateCategoryResponse> updateCategory(
-            @RequestBody UpdateCategoryRequest request
+            @RequestBody final UpdateCategoryRequest request
     ){
         UpdateCategoryResponse response = categoryService.updateCategory(request);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 
 }

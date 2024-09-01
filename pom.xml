@@ -12,11 +12,11 @@
     </parent>
 
     <groupId>com.afulvio.booklify</groupId>
-    <artifactId>bookEntity-service</artifactId>
+    <artifactId>book-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>bookEntity-service</name>
-    <description>bookEntity-service</description>
+    <name>book-service</name>
+    <description>book-service</description>
     <url>https://www.booklify.org/books</url>
     <licenses>
         <license>

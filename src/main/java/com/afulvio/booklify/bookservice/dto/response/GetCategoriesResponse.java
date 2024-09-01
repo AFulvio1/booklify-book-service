@@ -10,6 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 public class GetCategoriesResponse {
 
-    private List<CategoryDTO> categorie;
+    private List<CategoryDTO> categories;
 
 }
