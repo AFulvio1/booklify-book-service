@@ -4,7 +4,7 @@ LABEL authors="afulvio"
 
 WORKDIR /app
 
-COPY target/bookEntity-service-0.0.1-SNAPSHOT.jar app.jar
+COPY target/book-service-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 

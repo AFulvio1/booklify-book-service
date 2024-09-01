@@ -43,3 +43,15 @@ CREATE TABLE book (
     CONSTRAINT book_category_fk FOREIGN KEY (category) REFERENCES category(id),
     CONSTRAINT book_publisher_fk FOREIGN KEY (publisher) REFERENCES publisher(id)
 );
+
+CREATE SEQUENCE IF NOT EXISTS book_seq
+    START WITH 6
+    INCREMENT BY 1;
+
+CREATE SEQUENCE IF NOT EXISTS category_seq
+    START WITH 11
+    INCREMENT BY 1;
+
+CREATE SEQUENCE IF NOT EXISTS publisher_seq
+    START WITH 9
+    INCREMENT BY 1;
