@@ -35,7 +35,7 @@ public class BookService {
             Optional<BookEntity> opt = bookRepository.findById(id);
             if (opt.isPresent()) {
                 log.info("Book founded");
-                book = bookMapper.mapBookToBookDto(opt.get());
+                book = bookMapper.entityToDTO(opt.get());
             }
             else log.info("Book not founded");
         } catch (Exception e) {
@@ -51,7 +51,7 @@ public class BookService {
         try {
             List<BookEntity> entities = bookRepository.findAll();
             if (CollectionUtils.isNotEmpty(entities))
-                books = entities.stream().map(bookMapper::mapBookToBookDto).collect(Collectors.toList());
+                books = entities.stream().map(bookMapper::entityToDTO).collect(Collectors.toList());
             else
                 log.warn("No books found");
         } catch (Exception e) {
@@ -65,8 +65,8 @@ public class BookService {
         BookDTO savedBook;
         try {
             log.info("Start adding a book");
-            BookEntity savedBookEntity = bookRepository.save(bookMapper.mapBookDtoToBook(request.getBook()));
-            savedBook = bookMapper.mapBookToBookDto(savedBookEntity);
+            BookEntity savedBookEntity = bookRepository.save(bookMapper.dtoToEntity(request.getBook()));
+            savedBook = bookMapper.entityToDTO(savedBookEntity);
             log.info("Book added");
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -76,12 +76,12 @@ public class BookService {
 
     @Transactional
     public DeleteBookResponse deleteBookById(Long id) {
-        DeleteBookResponse response = null;
+        DeleteBookResponse response;
         try {
             log.info("Start deleting a book with ID: {}", id);
             bookRepository.deleteById(id);
             response = new DeleteBookResponse(
-                    bookMapper.mapBookToBookDto(bookRepository.findById(id).orElse(new BookEntity()))
+                    bookMapper.entityToDTO(bookRepository.findById(id).orElse(new BookEntity()))
             );
             log.info("Book deleted");
         } catch (Exception e) {
@@ -98,8 +98,8 @@ public class BookService {
             Optional<BookEntity> entity = bookRepository.findById(request.getBook().getId());
             if (entity.isPresent()) {
                 log.info("Book founded for update");
-                BookEntity updatedEntity = bookRepository.save(bookMapper.mapBookDtoToBook(request.getBook()));
-                response.setBook(bookMapper.mapBookToBookDto(updatedEntity));
+                BookEntity updatedEntity = bookRepository.save(bookMapper.dtoToEntity(request.getBook()));
+                response.setBook(bookMapper.entityToDTO(updatedEntity));
             }
             else log.warn("Book not founded for update");
         } catch (Exception e) {

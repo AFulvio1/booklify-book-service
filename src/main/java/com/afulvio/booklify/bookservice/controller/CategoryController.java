@@ -1,6 +1,6 @@
 package com.afulvio.booklify.bookservice.controller;
 
-import com.afulvio.booklify.bookservice.dto.CategoryDTO;
+import com.afulvio.booklify.bookservice.dto.request.AddCategoryRequest;
 import com.afulvio.booklify.bookservice.dto.request.UpdateCategoryRequest;
 import com.afulvio.booklify.bookservice.dto.response.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,9 +45,9 @@ public class CategoryController {
     @Operation(summary = "Create a Category")
     @ApiResponse(responseCode = "201", description = "HTTP Status 201 CREATED")
     public ResponseEntity<AddCategoryResponse> saveCategory(
-            @RequestBody final CategoryDTO categoryDto
+            @RequestBody AddCategoryRequest request
     ){
-        AddCategoryResponse response = categoryService.addCategory(categoryDto);
+        AddCategoryResponse response = categoryService.addCategory(request.getCategory());
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -65,9 +65,9 @@ public class CategoryController {
     @Operation(summary = "Update a Book")
     @ApiResponse(responseCode = "202", description = "HTTP Status 202 OK")
     public ResponseEntity<UpdateCategoryResponse> updateCategory(
-            @RequestBody final UpdateCategoryRequest request
+            @RequestBody UpdateCategoryRequest request
     ){
-        UpdateCategoryResponse response = categoryService.updateCategory(request);
+        UpdateCategoryResponse response = categoryService.updateCategory(request.getCategory());
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 

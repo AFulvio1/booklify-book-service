@@ -2,6 +2,7 @@ package com.afulvio.booklify.bookservice.controller;
 
 import com.afulvio.booklify.bookservice.BaseIntegrationTest;
 import com.afulvio.booklify.bookservice.dto.CategoryDTO;
+import com.afulvio.booklify.bookservice.dto.request.AddCategoryRequest;
 import com.afulvio.booklify.bookservice.dto.request.UpdateCategoryRequest;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -43,9 +44,7 @@ public class CategoryControllerTest extends BaseIntegrationTest {
     @Order(3)
     public void testSaveCategory_OK() throws Exception {
         this.mockMvc.perform(post(BASE_URL + "/add")
-                        .content(this.objectMapper.writeValueAsBytes(CategoryDTO.builder()
-                                        .name("Test")
-                                .build()))
+                        .content(this.objectMapper.writeValueAsBytes(buildAddCategoryRequest()))
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
                 .andDo(print())
@@ -73,12 +72,18 @@ public class CategoryControllerTest extends BaseIntegrationTest {
                         .contentType(MediaTypes.HAL_JSON))
                 .andDo(print())
                 .andExpect(status().isAccepted())
-                .andExpect(jsonPath("$.category.name").value("Test"));
+                .andExpect(jsonPath("$.category.name").value("Test Renamed"));
+    }
+
+    private AddCategoryRequest buildAddCategoryRequest() {
+        return new AddCategoryRequest(CategoryDTO.builder()
+                .name("Test")
+                .build());
     }
 
     private UpdateCategoryRequest buildUpdateCategoryRequest() {
         return new UpdateCategoryRequest(CategoryDTO.builder()
-                .id(11L)
+                .id(5L)
                 .name("Test Renamed")
                 .build());
     }

@@ -46,7 +46,7 @@ public class BookController {
     @Operation(summary = "Save a Book")
     @ApiResponse(responseCode = "201", description = "HTTP Status 201 CREATED")
     public ResponseEntity<AddBookResponse> saveBook(
-            @RequestBody final AddBookRequest request
+            @RequestBody AddBookRequest request
     ){
         AddBookResponse response = bookService.addBook(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -66,7 +66,7 @@ public class BookController {
     @Operation(summary = "Update a Book")
     @ApiResponse(responseCode = "202", description = "HTTP Status 202 OK")
     public ResponseEntity<UpdateBookResponse> updateBook(
-            @RequestBody final UpdateBookRequest request
+            @RequestBody UpdateBookRequest request
     ){
         UpdateBookResponse response = bookService.updateBook(request);
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
