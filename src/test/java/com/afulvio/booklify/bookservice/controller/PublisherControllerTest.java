@@ -77,18 +77,18 @@ public class PublisherControllerTest extends BaseIntegrationTest {
     }
 
     private AddPublisherRequest buildAddPublisherRequest() {
-        return new AddPublisherRequest(PublisherDTO.builder()
+        return AddPublisherRequest.builder()
                 .name("Test")
                 .country("Test")
                 .zip("00000")
-                .build());
+                .build();
     }
 
     private UpdatePublisherRequest buildUpdatePublisherRequest() {
-        return new UpdatePublisherRequest(PublisherDTO.builder()
+        return UpdatePublisherRequest.builder()
                 .id(5L)
                 .name("Test Renamed")
-                .build());
+                .build();
     }
 
 }

@@ -1,15 +1,18 @@
 package com.afulvio.booklify.bookservice.dto.request;
 
 import com.afulvio.booklify.bookservice.dto.CategoryDTO;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+@Data @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddCategoryRequest {
 
-    private CategoryDTO category;
+    @Valid
+    private String name;
 
 }

@@ -1,15 +1,24 @@
 package com.afulvio.booklify.bookservice.dto.request;
 
-import com.afulvio.booklify.bookservice.dto.PublisherDTO;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+@Data @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddPublisherRequest {
 
-    private PublisherDTO publisher;
+    @Valid
+    private String name;
+    @Valid
+    private String country;
+    private String city;
+    private String address;
+    private String zip;
+    private String website;
+    private String contacts;
 
 }

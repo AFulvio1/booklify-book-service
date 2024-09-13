@@ -76,16 +76,16 @@ public class CategoryControllerTest extends BaseIntegrationTest {
     }
 
     private AddCategoryRequest buildAddCategoryRequest() {
-        return new AddCategoryRequest(CategoryDTO.builder()
+        return AddCategoryRequest.builder()
                 .name("Test")
-                .build());
+                .build();
     }
 
     private UpdateCategoryRequest buildUpdateCategoryRequest() {
-        return new UpdateCategoryRequest(CategoryDTO.builder()
+        return UpdateCategoryRequest.builder()
                 .id(5L)
                 .name("Test Renamed")
-                .build());
+                .build();
     }
 
 }

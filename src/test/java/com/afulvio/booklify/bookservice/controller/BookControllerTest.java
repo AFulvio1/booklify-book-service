@@ -76,18 +76,14 @@ public class BookControllerTest extends BaseIntegrationTest {
 
     private AddBookRequest buildAddBookRequest() {
         return AddBookRequest.builder()
-                .book(BookDTO.builder()
-                        .author("Test")
-                        .build())
+                .author("Test")
                 .build();
     }
 
     private UpdateBookRequest buildUpdateBookRequest() {
         return UpdateBookRequest.builder()
-                .book(BookDTO.builder()
-                        .id(1L)
-                        .author("Test")
-                        .build())
+                .id(1L)
+                .author("Test")
                 .build();
     }
 

@@ -7,6 +7,7 @@ import com.afulvio.booklify.bookservice.service.PublisherService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class PublisherController {
     @Operation(summary = "Get Publisher by ID")
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
     public ResponseEntity<GetPublisherResponse> getPublisher(
-            @PathVariable("id") final Long id
+            @PathVariable("id") @Valid final Long id
     ){
         GetPublisherResponse response = publisherService.getPublisherById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -47,7 +48,7 @@ public class PublisherController {
     public ResponseEntity<AddPublisherResponse> savePublisher(
             @RequestBody final AddPublisherRequest request
     ){
-        AddPublisherResponse response = publisherService.addPublisher(request.getPublisher());
+        AddPublisherResponse response = publisherService.addPublisher(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -55,7 +56,7 @@ public class PublisherController {
     @Operation(summary = "Delete Publisher by ID")
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
     public ResponseEntity<DeletePublisherResponse> deletePublisher(
-            @PathVariable("id") final Long id
+            @PathVariable("id") @Valid final Long id
     ){
         DeletePublisherResponse response = publisherService.deletePublisherById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -67,7 +68,7 @@ public class PublisherController {
     public ResponseEntity<UpdatePublisherResponse> updatePublisher(
             @RequestBody UpdatePublisherRequest request
     ){
-        UpdatePublisherResponse response = publisherService.updatePublisher(request.getPublisher());
+        UpdatePublisherResponse response = publisherService.updatePublisher(request);
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
     

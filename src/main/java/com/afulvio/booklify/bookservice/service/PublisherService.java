@@ -1,6 +1,8 @@
 package com.afulvio.booklify.bookservice.service;
 
 import com.afulvio.booklify.bookservice.dto.PublisherDTO;
+import com.afulvio.booklify.bookservice.dto.request.AddPublisherRequest;
+import com.afulvio.booklify.bookservice.dto.request.UpdatePublisherRequest;
 import com.afulvio.booklify.bookservice.dto.response.*;
 import com.afulvio.booklify.bookservice.entity.PublisherEntity;
 import com.afulvio.booklify.bookservice.mapper.PublisherMapper;
@@ -26,78 +28,75 @@ public class PublisherService {
 
     @Transactional
     public GetPublisherResponse getPublisherById(Long id) {
-        PublisherDTO publisher = null;
+        log.info("Start searching publisher with ID: {}", id);
+        GetPublisherResponse response = new GetPublisherResponse();
         try {
-            log.info("Start searching publisher with ID: {}", id);
-            Optional<PublisherEntity> opt = publisherRepository.findById(id);
-            if (opt.isPresent()) {
-                log.info("Publisher founded");
-                publisher =  publisherMapper.entityToDTO(opt.get());
-            }
-            else log.warn("Publisher not founded");
+            publisherRepository.findById(id).ifPresentOrElse(
+                    entity -> response.setPublisher(publisherMapper.entityToDTO(entity)),
+                    () -> log.warn("Publisher not founded")
+            );
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return new GetPublisherResponse(publisher);
-    }
-
-    @Transactional
-    public GetPublishersResponse getAllPublishers() {
-        List<PublisherDTO> publishers = new ArrayList<>();
-        try {
-            log.info("Start searching all the publishers");
-            List<PublisherEntity> entities = publisherRepository.findAll();
-            if (CollectionUtils.isNotEmpty(entities)) {
-                log.info("Publishers founded");
-                entities.forEach(entity -> publishers.add(publisherMapper.entityToDTO(entity)));
-            }
-            else log.warn("Publishers not founded");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return new GetPublishersResponse(publishers);
-    }
-
-    @Transactional
-    public AddPublisherResponse addPublisher(PublisherDTO PublisherDTO) {
-        PublisherDTO savedPublisher;
-        try {
-            log.info("Start saving a publisher");
-            PublisherEntity savedPublisherEntity = publisherRepository.save(publisherMapper.dtoToEntity(PublisherDTO));
-            log.info("Publisher saved");
-            savedPublisher =  publisherMapper.entityToDTO(savedPublisherEntity);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return new AddPublisherResponse(savedPublisher);
-    }
-
-    @Transactional
-    public DeletePublisherResponse deletePublisherById(Long id) {
-        DeletePublisherResponse response;
-        try {
-            log.info("Start deleting a publisher with ID: {}", id);
-            publisherRepository.deleteById(id);
-            response = new DeletePublisherResponse(new PublisherDTO());
-            log.info("Publisher deleted");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        log.info("Publisher founded");
         return response;
     }
 
     @Transactional
-    public UpdatePublisherResponse updatePublisher(PublisherDTO publisher) {
-        UpdatePublisherResponse response = null;
+    public GetPublishersResponse getAllPublishers() {
+        log.info("Start searching all the publishers");
+        List<PublisherDTO> publishers = new ArrayList<>();
         try {
-            log.info("Start updating a publisher");
-            Optional<PublisherEntity> entity = publisherRepository.findById(publisher.getId());
-            if (entity.isPresent()) {
-                log.info("Publisher founded for update");
-                PublisherEntity updatedEntity = publisherRepository.save(publisherMapper.dtoToEntity(publisher));
-                response = new UpdatePublisherResponse(publisherMapper.entityToDTO(updatedEntity));
-            }
-            else log.warn("Publisher not founded for update");
+            publisherRepository.findAll()
+                    .forEach(entity -> publishers.add(publisherMapper.entityToDTO(entity)));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        log.info("Publishers founded");
+        return new GetPublishersResponse(publishers);
+    }
+
+    @Transactional
+    public AddPublisherResponse addPublisher(AddPublisherRequest request) {
+        log.info("Start saving a publisher");
+        AddPublisherResponse response = new AddPublisherResponse();
+        try {
+            response.setPublisher(publisherMapper.entityToDTO(
+                    publisherRepository.save(
+                            publisherMapper.requestToEntity(request))));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        log.info("Publisher saved");
+        return response;
+    }
+
+    @Transactional
+    public DeletePublisherResponse deletePublisherById(Long id) {
+        log.info("Start deleting a publisher with ID: {}", id);
+        DeletePublisherResponse response = new DeletePublisherResponse();
+        try {
+            publisherRepository.deleteById(id);
+            response.setPublisher(new PublisherDTO());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        log.info("Publisher deleted");
+        return response;
+    }
+
+    @Transactional
+    public UpdatePublisherResponse updatePublisher(UpdatePublisherRequest request) {
+        log.info("Start updating a publisher");
+        UpdatePublisherResponse response = new UpdatePublisherResponse();
+        try {
+            publisherRepository.findById(request.getId()).ifPresentOrElse(
+                    entity -> response.setPublisher(
+                            publisherMapper.entityToDTO(
+                                    publisherRepository.save(
+                                            publisherMapper.requestToEntity(request)))),
+                    () -> log.warn("Publisher not founded for update")
+            );
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

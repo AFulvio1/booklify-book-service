@@ -10,13 +10,11 @@ import com.afulvio.booklify.bookservice.repository.BookRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -30,18 +28,17 @@ public class BookService {
     @Transactional
     public GetBookResponse getBookById(Long id) {
         log.info("Start searching a book with ID: {}", id);
-        BookDTO book = BookDTO.builder().build();
+        GetBookResponse response = new GetBookResponse();
         try {
-            Optional<BookEntity> opt = bookRepository.findById(id);
-            if (opt.isPresent()) {
-                log.info("Book founded");
-                book = bookMapper.entityToDTO(opt.get());
-            }
-            else log.info("Book not founded");
+            bookRepository.findById(id).ifPresentOrElse(
+                    entity -> response.setBook(bookMapper.entityToDTO(entity)),
+                    () -> log.info("Book not founded")
+            );
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return new GetBookResponse(book);
+        log.info("Book founded");
+        return response;
     }
 
     @Transactional
@@ -49,11 +46,8 @@ public class BookService {
         log.info("Start searching all book");
         List<BookDTO> books = new ArrayList<>();
         try {
-            List<BookEntity> entities = bookRepository.findAll();
-            if (CollectionUtils.isNotEmpty(entities))
-                books = entities.stream().map(bookMapper::entityToDTO).collect(Collectors.toList());
-            else
-                log.warn("No books found");
+            bookRepository.findAll()
+                    .forEach(entity -> books.add(bookMapper.entityToDTO(entity)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -62,49 +56,46 @@ public class BookService {
 
     @Transactional
     public AddBookResponse addBook(AddBookRequest request) {
-        BookDTO savedBook;
+        log.info("Start adding a book");
+        AddBookResponse response = new AddBookResponse();
         try {
-            log.info("Start adding a book");
-            BookEntity savedBookEntity = bookRepository.save(bookMapper.dtoToEntity(request.getBook()));
-            savedBook = bookMapper.entityToDTO(savedBookEntity);
-            log.info("Book added");
+            response.setBook(bookMapper.entityToDTO(
+                    bookRepository.save(
+                            bookMapper.requestToEntity(request))));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return new AddBookResponse(savedBook);
-    }
-
-    @Transactional
-    public DeleteBookResponse deleteBookById(Long id) {
-        DeleteBookResponse response;
-        try {
-            log.info("Start deleting a book with ID: {}", id);
-            bookRepository.deleteById(id);
-            response = new DeleteBookResponse(
-                    bookMapper.entityToDTO(bookRepository.findById(id).orElse(new BookEntity()))
-            );
-            log.info("Book deleted");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        log.info("Book added");
         return response;
     }
 
     @Transactional
-    public UpdateBookResponse updateBook(UpdateBookRequest request) {
-        UpdateBookResponse response = new UpdateBookResponse();
+    public DeleteBookResponse deleteBookById(Long id) {
+        log.info("Start deleting a book with ID: {}", id);
+        BookDTO deletedBook;
         try {
-            log.info("Start updating a book");
-            Optional<BookEntity> entity = bookRepository.findById(request.getBook().getId());
-            if (entity.isPresent()) {
-                log.info("Book founded for update");
-                BookEntity updatedEntity = bookRepository.save(bookMapper.dtoToEntity(request.getBook()));
-                response.setBook(bookMapper.entityToDTO(updatedEntity));
-            }
-            else log.warn("Book not founded for update");
+            bookRepository.deleteById(id);
+            deletedBook = bookMapper.entityToDTO(bookRepository.findById(id).orElse(new BookEntity()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        log.info("Book deleted");
+        return new DeleteBookResponse(deletedBook);
+    }
+
+    @Transactional
+    public UpdateBookResponse updateBook(UpdateBookRequest request) {
+        log.info("Start updating a book");
+        UpdateBookResponse response = new UpdateBookResponse();
+        try {
+            bookRepository.findById(request.getId()).ifPresentOrElse(
+                entity -> response.setBook(bookMapper.entityToDTO(bookRepository.save(bookMapper.requestToEntity(request)))),
+                () -> log.info("No books founded for update")
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        log.info("Book updated");
         return response;
     }
 

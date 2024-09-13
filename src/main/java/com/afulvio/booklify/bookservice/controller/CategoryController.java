@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import com.afulvio.booklify.bookservice.service.CategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class CategoryController {
     @Operation(summary = "Get Category by ID")
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
     public ResponseEntity<GetCategoryResponse> getCategory(
-            @PathVariable("id") final Long id
+            @PathVariable("id") @Valid final Long id
     ){
         GetCategoryResponse response = categoryService.getCategoryById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -47,7 +48,7 @@ public class CategoryController {
     public ResponseEntity<AddCategoryResponse> saveCategory(
             @RequestBody AddCategoryRequest request
     ){
-        AddCategoryResponse response = categoryService.addCategory(request.getCategory());
+        AddCategoryResponse response = categoryService.addCategory(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -55,7 +56,7 @@ public class CategoryController {
     @Operation(summary = "Delete Category by ID")
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
     public ResponseEntity<DeleteCategoryResponse> deleteCategory(
-            @PathVariable("id") final Long id
+            @PathVariable("id") @Valid final Long id
     ){
         DeleteCategoryResponse response = categoryService.deleteCategoryById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -67,7 +68,7 @@ public class CategoryController {
     public ResponseEntity<UpdateCategoryResponse> updateCategory(
             @RequestBody UpdateCategoryRequest request
     ){
-        UpdateCategoryResponse response = categoryService.updateCategory(request.getCategory());
+        UpdateCategoryResponse response = categoryService.updateCategory(request);
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 

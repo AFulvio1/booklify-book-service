@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -50,6 +51,7 @@ public class PublisherEntity implements Serializable {
     private String contacts;
 
     @Column(name = "tms")
+    @UpdateTimestamp
     private LocalDateTime tms;
 
     @OneToMany(mappedBy = "publisher", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

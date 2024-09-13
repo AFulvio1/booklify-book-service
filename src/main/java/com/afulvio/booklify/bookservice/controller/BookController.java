@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import com.afulvio.booklify.bookservice.service.BookService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,7 +29,7 @@ public class BookController {
     @Operation(summary = "Get Book by ID")
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
     public ResponseEntity<GetBookResponse> getBook(
-            @PathVariable("id") final Long id
+            @PathVariable("id") @Valid final Long id
     ){
         GetBookResponse response = bookService.getBookById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -56,7 +57,7 @@ public class BookController {
     @Operation(summary = "Delete Book by ID")
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
     public ResponseEntity<DeleteBookResponse> deleteBook(
-            @PathVariable("id") final Long id
+            @PathVariable("id") @Valid final Long id
     ) {
         DeleteBookResponse response = bookService.deleteBookById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
