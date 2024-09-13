@@ -1,7 +1,6 @@
 package com.afulvio.booklify.bookservice.controller;
 
 import com.afulvio.booklify.bookservice.BaseIntegrationTest;
-import com.afulvio.booklify.bookservice.dto.CategoryDTO;
 import com.afulvio.booklify.bookservice.dto.request.AddCategoryRequest;
 import com.afulvio.booklify.bookservice.dto.request.UpdateCategoryRequest;
 import org.junit.jupiter.api.Order;

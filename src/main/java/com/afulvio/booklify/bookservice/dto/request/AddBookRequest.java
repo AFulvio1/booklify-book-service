@@ -1,6 +1,5 @@
 package com.afulvio.booklify.bookservice.dto.request;
 
-import com.afulvio.booklify.bookservice.dto.BookDTO;
 import com.afulvio.booklify.bookservice.dto.CategoryDTO;
 import com.afulvio.booklify.bookservice.dto.PublisherDTO;
 import jakarta.validation.Valid;

@@ -1,6 +1,5 @@
 package com.afulvio.booklify.bookservice.dto.request;
 
-import com.afulvio.booklify.bookservice.dto.CategoryDTO;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

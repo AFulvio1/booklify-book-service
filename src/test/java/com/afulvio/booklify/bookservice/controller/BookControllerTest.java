@@ -1,7 +1,6 @@
 package com.afulvio.booklify.bookservice.controller;
 
 import com.afulvio.booklify.bookservice.BaseIntegrationTest;
-import com.afulvio.booklify.bookservice.dto.BookDTO;
 import com.afulvio.booklify.bookservice.dto.request.AddBookRequest;
 import com.afulvio.booklify.bookservice.dto.request.UpdateBookRequest;
 import org.junit.jupiter.api.Order;
