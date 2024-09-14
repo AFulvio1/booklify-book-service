@@ -63,7 +63,7 @@ public class PublisherController {
     }
 
     @PutMapping("/update")
-    @Operation(summary = "Update a Book")
+    @Operation(summary = "Update a Publisher")
     @ApiResponse(responseCode = "202", description = "HTTP Status 202 OK")
     public ResponseEntity<UpdatePublisherResponse> updatePublisher(
             @RequestBody UpdatePublisherRequest request

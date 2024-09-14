@@ -29,6 +29,17 @@ public class CategoryControllerTest extends BaseIntegrationTest {
 
     @Test
     @Order(2)
+    public void testGetCategory_KO2() throws Exception {
+        this.mockMvc.perform(get(BASE_URL + "/get/{id}", 20)
+                        .characterEncoding("utf-8")
+                        .contentType(MediaTypes.HAL_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("it was not possible to recover the category"));
+    }
+
+    @Test
+    @Order(3)
     public void testGetAll_OK() throws Exception {
         this.mockMvc.perform(get(BASE_URL + "/get-all")
                         .characterEncoding("utf-8")
@@ -40,10 +51,10 @@ public class CategoryControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     public void testSaveCategory_OK() throws Exception {
         this.mockMvc.perform(post(BASE_URL + "/add")
-                        .content(this.objectMapper.writeValueAsBytes(buildAddCategoryRequest()))
+                        .content(this.objectMapper.writeValueAsBytes(buildAddCategoryRequest("Test")))
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
                 .andDo(print())
@@ -52,21 +63,21 @@ public class CategoryControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    @Order(5)
-    public void testDeleteCategory_OK() throws Exception {
-        this.mockMvc.perform(delete(BASE_URL + "/delete/{id}", 11)
+    @Order(8)
+    public void testSaveCategory_KO() throws Exception {
+        this.mockMvc.perform(post(BASE_URL + "/add")
+                        .content(this.objectMapper.writeValueAsBytes(buildAddCategoryRequest("")))
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.category.name").isEmpty());
+                .andExpect(status().isNotFound());
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     public void testUpdateCategory_OK() throws Exception {
         this.mockMvc.perform(put(BASE_URL + "/update")
-                        .content(this.objectMapper.writeValueAsBytes(buildUpdateCategoryRequest()))
+                        .content(this.objectMapper.writeValueAsBytes(buildUpdateCategoryRequest(11L)))
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
                 .andDo(print())
@@ -74,15 +85,40 @@ public class CategoryControllerTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$.category.name").value("Test Renamed"));
     }
 
-    private AddCategoryRequest buildAddCategoryRequest() {
+    @Test
+    @Order(6)
+    public void testUpdateCategory_KO() throws Exception {
+        this.mockMvc.perform(put(BASE_URL + "/update")
+                        .content(this.objectMapper.writeValueAsBytes(buildUpdateCategoryRequest(12L)))
+                        .characterEncoding("utf-8")
+                        .contentType(MediaTypes.HAL_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("it was not possible to recover the category for update"));
+    }
+
+    @Test
+    @Order(7)
+    public void testDeleteCategory_OK() throws Exception {
+        this.mockMvc.perform(delete(BASE_URL + "/delete/{id}", 11)
+                        .characterEncoding("utf-8")
+                        .contentType(MediaTypes.HAL_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.category").isEmpty());
+    }
+
+
+
+    private AddCategoryRequest buildAddCategoryRequest(String name) {
         return AddCategoryRequest.builder()
-                .name("Test")
+                .name(name)
                 .build();
     }
 
-    private UpdateCategoryRequest buildUpdateCategoryRequest() {
+    private UpdateCategoryRequest buildUpdateCategoryRequest(Long id) {
         return UpdateCategoryRequest.builder()
-                .id(5L)
+                .id(id)
                 .name("Test Renamed")
                 .build();
     }

@@ -20,16 +20,27 @@ public class PublisherControllerTest extends BaseIntegrationTest {
     @Test
     @Order(1)
     public void testGetPublisher_OK() throws Exception {
-        this.mockMvc.perform(get(BASE_URL + "/get/{id}", 1)
+        this.mockMvc.perform(get(BASE_URL + "/get/{id}", 8)
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.publisher.name").value("Penguin Random House"));
+                .andExpect(jsonPath("$.publisher.name").value("Holtzbrinck Publishing Group"));
     }
 
     @Test
     @Order(2)
+    public void testGetPublisher_KO() throws Exception {
+        this.mockMvc.perform(get(BASE_URL + "/get/{id}", 9)
+                        .characterEncoding("utf-8")
+                        .contentType(MediaTypes.HAL_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("it was not possible to recover the publisher"));
+    }
+
+    @Test
+    @Order(3)
     public void testGetAll_OK() throws Exception {
         this.mockMvc.perform(get(BASE_URL + "/get-all")
                         .characterEncoding("utf-8")
@@ -41,7 +52,7 @@ public class PublisherControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     public void testSavePublisher_OK() throws Exception {
         this.mockMvc.perform(post(BASE_URL + "/add")
                         .content(this.objectMapper.writeValueAsBytes(buildAddPublisherRequest()))
@@ -54,26 +65,40 @@ public class PublisherControllerTest extends BaseIntegrationTest {
 
     @Test
     @Order(5)
-    public void testDeletePublisher_OK() throws Exception {
-        this.mockMvc.perform(delete(BASE_URL + "/delete/{id}", 11)
-                        .characterEncoding("utf-8")
-                        .contentType(MediaTypes.HAL_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.publisher.name").isEmpty());
-    }
-
-    @Test
-    @Order(4)
     public void testUpdatePublisher_OK() throws Exception {
         this.mockMvc.perform(put(BASE_URL + "/update")
-                        .content(this.objectMapper.writeValueAsBytes(buildUpdatePublisherRequest()))
+                        .content(this.objectMapper.writeValueAsBytes(buildUpdatePublisherRequest(9L)))
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
                 .andDo(print())
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$.publisher.name").value("Test Renamed"));
     }
+
+    @Test
+    @Order(6)
+    public void testUpdatePublisher_KO() throws Exception {
+        this.mockMvc.perform(put(BASE_URL + "/update")
+                        .content(this.objectMapper.writeValueAsBytes(buildUpdatePublisherRequest(10L)))
+                        .characterEncoding("utf-8")
+                        .contentType(MediaTypes.HAL_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("it was not possible to recover the publisher for update"));
+    }
+
+    @Test
+    @Order(7)
+    public void testDeletePublisher_OK() throws Exception {
+        this.mockMvc.perform(delete(BASE_URL + "/delete/{id}", 9)
+                        .characterEncoding("utf-8")
+                        .contentType(MediaTypes.HAL_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.publisher").isEmpty());
+    }
+
+
 
     private AddPublisherRequest buildAddPublisherRequest() {
         return AddPublisherRequest.builder()
@@ -83,9 +108,9 @@ public class PublisherControllerTest extends BaseIntegrationTest {
                 .build();
     }
 
-    private UpdatePublisherRequest buildUpdatePublisherRequest() {
+    private UpdatePublisherRequest buildUpdatePublisherRequest(Long id) {
         return UpdatePublisherRequest.builder()
-                .id(5L)
+                .id(id)
                 .name("Test Renamed")
                 .build();
     }

@@ -29,7 +29,7 @@ public class BookController {
     @Operation(summary = "Get Book by ID")
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
     public ResponseEntity<GetBookResponse> getBook(
-            @PathVariable("id") @Valid final Long id
+            @PathVariable("id") final Long id
     ){
         GetBookResponse response = bookService.getBookById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -47,7 +47,7 @@ public class BookController {
     @Operation(summary = "Save a Book")
     @ApiResponse(responseCode = "201", description = "HTTP Status 201 CREATED")
     public ResponseEntity<AddBookResponse> saveBook(
-            @RequestBody AddBookRequest request
+            @RequestBody @Valid AddBookRequest request
     ){
         AddBookResponse response = bookService.addBook(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);

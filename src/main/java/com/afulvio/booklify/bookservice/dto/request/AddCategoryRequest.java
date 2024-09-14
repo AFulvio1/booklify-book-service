@@ -1,6 +1,7 @@
 package com.afulvio.booklify.bookservice.dto.request;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AddCategoryRequest {
 
-    @Valid
+    @Valid @NotEmpty
     private String name;
 
 }

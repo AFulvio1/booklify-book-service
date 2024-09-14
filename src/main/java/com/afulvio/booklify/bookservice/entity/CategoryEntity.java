@@ -10,7 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "category")
@@ -37,6 +37,6 @@ public class CategoryEntity implements Serializable {
     private LocalDateTime tms;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<BookEntity> books;
+    private Set<BookEntity> books;
 
 }

@@ -1,16 +1,13 @@
 package com.afulvio.booklify.bookservice.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "publisher")
@@ -55,6 +52,7 @@ public class PublisherEntity implements Serializable {
     private LocalDateTime tms;
 
     @OneToMany(mappedBy = "publisher", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<BookEntity> books;
+    @ToString.Exclude
+    private Set<BookEntity> books;
 
 }

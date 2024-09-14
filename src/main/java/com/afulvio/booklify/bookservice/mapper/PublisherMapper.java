@@ -5,6 +5,7 @@ import com.afulvio.booklify.bookservice.dto.request.AddPublisherRequest;
 import com.afulvio.booklify.bookservice.dto.request.UpdatePublisherRequest;
 import com.afulvio.booklify.bookservice.entity.PublisherEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface PublisherMapper {
@@ -13,7 +14,12 @@ public interface PublisherMapper {
 
     PublisherEntity dtoToEntity(PublisherDTO dto);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "books", ignore = true)
+    @Mapping(target = "tms", ignore = true)
     PublisherEntity requestToEntity(AddPublisherRequest request);
 
+    @Mapping(target = "books", ignore = true)
+    @Mapping(target = "tms", ignore = true)
     PublisherEntity requestToEntity(UpdatePublisherRequest request);
 }

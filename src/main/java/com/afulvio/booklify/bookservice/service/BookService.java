@@ -5,7 +5,9 @@ import com.afulvio.booklify.bookservice.dto.request.AddBookRequest;
 import com.afulvio.booklify.bookservice.dto.request.UpdateBookRequest;
 import com.afulvio.booklify.bookservice.dto.response.*;
 import com.afulvio.booklify.bookservice.entity.BookEntity;
+import com.afulvio.booklify.bookservice.exception.notfound.BookNotFoundException;
 import com.afulvio.booklify.bookservice.mapper.BookMapper;
+import com.afulvio.booklify.bookservice.model.LocalError;
 import com.afulvio.booklify.bookservice.repository.BookRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -28,15 +30,10 @@ public class BookService {
     public GetBookResponse getBookById(Long id) {
         log.info("Start searching a book with ID: {}", id);
         GetBookResponse response = new GetBookResponse();
-        try {
-            bookRepository.findById(id).ifPresentOrElse(
-                    entity -> response.setBook(bookMapper.entityToDTO(entity)),
-                    () -> log.info("Book not founded")
-            );
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        log.info("Book founded");
+        bookRepository.findById(id).ifPresentOrElse(
+                entity -> response.setBook(bookMapper.entityToDTO(entity)),
+                () -> { throw new BookNotFoundException(LocalError.E010.getMessage()); }
+        );
         return response;
     }
 
@@ -44,12 +41,8 @@ public class BookService {
     public GetBooksResponse getAllBooks() {
         log.info("Start searching all book");
         List<BookDTO> books = new ArrayList<>();
-        try {
-            bookRepository.findAll()
-                    .forEach(entity -> books.add(bookMapper.entityToDTO(entity)));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        bookRepository.findAll()
+                .forEach(entity -> books.add(bookMapper.entityToDTO(entity)));
         return new GetBooksResponse(books);
     }
 
@@ -57,13 +50,9 @@ public class BookService {
     public AddBookResponse addBook(AddBookRequest request) {
         log.info("Start adding a book");
         AddBookResponse response = new AddBookResponse();
-        try {
-            response.setBook(bookMapper.entityToDTO(
-                    bookRepository.save(
-                            bookMapper.requestToEntity(request))));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        response.setBook(bookMapper.entityToDTO(
+                bookRepository.save(
+                        bookMapper.requestToEntity(request))));
         log.info("Book added");
         return response;
     }
@@ -71,29 +60,19 @@ public class BookService {
     @Transactional
     public DeleteBookResponse deleteBookById(Long id) {
         log.info("Start deleting a book with ID: {}", id);
-        BookDTO deletedBook;
-        try {
-            bookRepository.deleteById(id);
-            deletedBook = bookMapper.entityToDTO(bookRepository.findById(id).orElse(new BookEntity()));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        bookRepository.deleteById(id);
         log.info("Book deleted");
-        return new DeleteBookResponse(deletedBook);
+        return new DeleteBookResponse();
     }
 
     @Transactional
     public UpdateBookResponse updateBook(UpdateBookRequest request) {
         log.info("Start updating a book");
         UpdateBookResponse response = new UpdateBookResponse();
-        try {
-            bookRepository.findById(request.getId()).ifPresentOrElse(
-                entity -> response.setBook(bookMapper.entityToDTO(bookRepository.save(bookMapper.requestToEntity(request)))),
-                () -> log.info("No books founded for update")
-            );
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        bookRepository.findById(request.getId()).ifPresentOrElse(
+            entity -> response.setBook(bookMapper.entityToDTO(bookRepository.save(bookMapper.requestToEntity(request)))),
+            () -> { throw new BookNotFoundException(LocalError.E011.getMessage()); }
+        );
         log.info("Book updated");
         return response;
     }

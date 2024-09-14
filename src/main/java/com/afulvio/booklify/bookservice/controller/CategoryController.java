@@ -28,7 +28,7 @@ public class CategoryController {
     @Operation(summary = "Get Category by ID")
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
     public ResponseEntity<GetCategoryResponse> getCategory(
-            @PathVariable("id") @Valid final Long id
+            @PathVariable("id") final Long id
     ){
         GetCategoryResponse response = categoryService.getCategoryById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -46,7 +46,7 @@ public class CategoryController {
     @Operation(summary = "Create a Category")
     @ApiResponse(responseCode = "201", description = "HTTP Status 201 CREATED")
     public ResponseEntity<AddCategoryResponse> saveCategory(
-            @RequestBody AddCategoryRequest request
+            @RequestBody @Valid AddCategoryRequest request
     ){
         AddCategoryResponse response = categoryService.addCategory(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -56,14 +56,14 @@ public class CategoryController {
     @Operation(summary = "Delete Category by ID")
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
     public ResponseEntity<DeleteCategoryResponse> deleteCategory(
-            @PathVariable("id") @Valid final Long id
+            @PathVariable("id") final Long id
     ){
         DeleteCategoryResponse response = categoryService.deleteCategoryById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/update")
-    @Operation(summary = "Update a Book")
+    @Operation(summary = "Update a Category")
     @ApiResponse(responseCode = "202", description = "HTTP Status 202 OK")
     public ResponseEntity<UpdateCategoryResponse> updateCategory(
             @RequestBody UpdateCategoryRequest request

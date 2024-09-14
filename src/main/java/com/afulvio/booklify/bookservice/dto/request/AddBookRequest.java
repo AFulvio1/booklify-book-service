@@ -3,6 +3,8 @@ package com.afulvio.booklify.bookservice.dto.request;
 import com.afulvio.booklify.bookservice.dto.CategoryDTO;
 import com.afulvio.booklify.bookservice.dto.PublisherDTO;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,11 +17,11 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class AddBookRequest {
 
-    @Valid
+    @Valid @NotNull
     private CategoryDTO category;
-    @Valid
+    @Valid @NotEmpty
     private String author;
-    @Valid
+    @Valid @NotEmpty
     private String title;
     private String title2;
     private String title3;
@@ -28,7 +30,7 @@ public class AddBookRequest {
     private String publication_year;
     private String lang;
     private String isbn;
-    @Valid
+    @Valid @NotNull
     private PublisherDTO publisher;
     private BigDecimal width;
     private BigDecimal length;
