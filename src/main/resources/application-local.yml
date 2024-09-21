@@ -15,21 +15,19 @@ spring:
 server:
     port: 8080
 
+logging:
+    level:
+        web: debug
+
 management:
     endpoints:
         web:
             exposure:
                 include: '*'
 
-logging:
-    level:
-        sql: debug
-        org.hibernate.orm.jdbc.bind: trace
-
-springdoc:
-    swagger-ui:
-        enabled: true
-        path: /swagger-ui
-    api-docs:
-        enabled: true
-        path: /api-docs
+eureka:
+    client:
+        service-url:
+            default-zone: http://localhost:8761/eureka/
+        fetchRegistry: true
+        register-with-eureka: true

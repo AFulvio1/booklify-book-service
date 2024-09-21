@@ -1,3 +1,27 @@
 spring:
   application:
     name: book-service
+  datasource:
+    url: jdbc:postgresql://postgres:5432/booklify
+    username: postgres
+    password: pgadmin
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  main:
+    web-application-type: servlet
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka/
+    fetchRegistry: true
+    register-with-eureka: true
