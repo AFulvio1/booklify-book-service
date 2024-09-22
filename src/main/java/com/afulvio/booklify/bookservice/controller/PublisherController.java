@@ -9,9 +9,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api/publishers")
@@ -31,7 +33,7 @@ public class PublisherController {
             @PathVariable("id") @Valid final Long id
     ){
         GetPublisherResponse response = publisherService.getPublisherById(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/get-all")
@@ -39,17 +41,21 @@ public class PublisherController {
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
     public ResponseEntity<GetPublishersResponse> getPublishers(){
         GetPublishersResponse response = publisherService.getAllPublishers();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/add")
     @Operation(summary = "Create a Publisher")
     @ApiResponse(responseCode = "201", description = "HTTP Status 201 CREATED")
     public ResponseEntity<AddPublisherResponse> savePublisher(
-            @RequestBody final AddPublisherRequest request
+            @RequestBody final AddPublisherRequest request,
+            UriComponentsBuilder uriBuilder
     ){
         AddPublisherResponse response = publisherService.addPublisher(request);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        URI location = uriBuilder.path("/api/books/{id}")
+                .buildAndExpand(response.getPublisher().getId())
+                .toUri();
+        return ResponseEntity.created(location).body(response);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -59,7 +65,7 @@ public class PublisherController {
             @PathVariable("id") @Valid final Long id
     ){
         DeletePublisherResponse response = publisherService.deletePublisherById(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/update")
@@ -69,7 +75,7 @@ public class PublisherController {
             @RequestBody UpdatePublisherRequest request
     ){
         UpdatePublisherResponse response = publisherService.updatePublisher(request);
-        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        return ResponseEntity.accepted().body(response);
     }
     
 }

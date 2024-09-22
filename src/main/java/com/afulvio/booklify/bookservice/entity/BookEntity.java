@@ -12,8 +12,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Data
-@Builder
+@Data @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

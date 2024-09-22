@@ -9,9 +9,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import com.afulvio.booklify.bookservice.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -31,7 +33,7 @@ public class CategoryController {
             @PathVariable("id") final Long id
     ){
         GetCategoryResponse response = categoryService.getCategoryById(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/get-all")
@@ -39,17 +41,21 @@ public class CategoryController {
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
     public ResponseEntity<GetCategoriesResponse> getCategories(){
         GetCategoriesResponse response = categoryService.getAllCategories();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/add")
     @Operation(summary = "Create a Category")
     @ApiResponse(responseCode = "201", description = "HTTP Status 201 CREATED")
     public ResponseEntity<AddCategoryResponse> saveCategory(
-            @RequestBody @Valid AddCategoryRequest request
+            @RequestBody @Valid AddCategoryRequest request,
+            UriComponentsBuilder uriBuilder
     ){
         AddCategoryResponse response = categoryService.addCategory(request);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        URI location = uriBuilder.path("/api/books/{id}")
+                .buildAndExpand(response.getCategory().getId())
+                .toUri();
+        return ResponseEntity.created(location).body(response);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -59,7 +65,7 @@ public class CategoryController {
             @PathVariable("id") final Long id
     ){
         DeleteCategoryResponse response = categoryService.deleteCategoryById(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/update")
@@ -69,7 +75,7 @@ public class CategoryController {
             @RequestBody UpdateCategoryRequest request
     ){
         UpdateCategoryResponse response = categoryService.updateCategory(request);
-        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        return ResponseEntity.accepted().body(response);
     }
 
 }

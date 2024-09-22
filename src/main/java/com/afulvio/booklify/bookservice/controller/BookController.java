@@ -9,10 +9,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import com.afulvio.booklify.bookservice.service.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("api/books")
@@ -32,7 +34,7 @@ public class BookController {
             @PathVariable("id") final Long id
     ){
         GetBookResponse response = bookService.getBookById(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/get-all")
@@ -40,17 +42,21 @@ public class BookController {
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
     public ResponseEntity<GetBooksResponse> getALlBooks() {
         GetBooksResponse response = bookService.getAllBooks();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/add")
     @Operation(summary = "Save a Book")
     @ApiResponse(responseCode = "201", description = "HTTP Status 201 CREATED")
     public ResponseEntity<AddBookResponse> saveBook(
-            @RequestBody @Valid AddBookRequest request
+            @RequestBody @Valid AddBookRequest request,
+            UriComponentsBuilder uriBuilder
     ){
         AddBookResponse response = bookService.addBook(request);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        URI location = uriBuilder.path("/api/books/{id}")
+                .buildAndExpand(response.getBook().getId())
+                .toUri();
+        return ResponseEntity.created(location).body(response);
     }
 
     @DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -60,7 +66,7 @@ public class BookController {
             @PathVariable("id") @Valid final Long id
     ) {
         DeleteBookResponse response = bookService.deleteBookById(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/update")
@@ -70,7 +76,7 @@ public class BookController {
             @RequestBody UpdateBookRequest request
     ){
         UpdateBookResponse response = bookService.updateBook(request);
-        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        return ResponseEntity.accepted().body(response);
     }
 
 }
