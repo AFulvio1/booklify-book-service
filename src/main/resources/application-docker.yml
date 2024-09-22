@@ -1,20 +1,22 @@
 spring:
   application:
-    name: book-service
+    name: "@project.artifactId@"
   datasource:
     url: jdbc:postgresql://postgres:5432/booklify
     username: postgres
     password: pgadmin
     driver-class-name: org.postgresql.Driver
   jpa:
-    hibernate:
-      ddl-auto: update
     show-sql: true
   main:
     web-application-type: servlet
 
 server:
   port: 8080
+
+logging:
+  level:
+    web: debug
 
 management:
   endpoints:
