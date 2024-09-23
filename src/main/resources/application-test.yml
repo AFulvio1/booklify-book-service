@@ -20,5 +20,5 @@ spring:
   sql:
     init:
       mode: always
-      schema-locations: classpath:mocks/scripts/booklify-ddl.sql
-      data-locations: classpath:mocks/scripts/booklify-data.sql
+      schema-locations: classpath:mocks/scripts/booklify-h2-ddl.sql
+      data-locations: classpath:mocks/scripts/booklify-h2-data.sql
