@@ -1,6 +1,6 @@
 package com.afulvio.booklify.bookservice.dto.response;
 
-import com.afulvio.booklify.bookservice.dto.BookDTO;
+import com.afulvio.booklify.bookservice.dto.PublisherDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddBookResponse {
+public class SavePublisherResponse {
 
-    private BookDTO book;
+    private PublisherDTO publisher;
 
 }

@@ -1,6 +1,6 @@
 package com.afulvio.booklify.bookservice.controller;
 
-import com.afulvio.booklify.bookservice.dto.request.AddBookRequest;
+import com.afulvio.booklify.bookservice.dto.request.SaveBookRequest;
 import com.afulvio.booklify.bookservice.dto.request.UpdateBookRequest;
 import com.afulvio.booklify.bookservice.dto.response.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,29 +30,29 @@ public class BookController {
     @GetMapping("/get/{id}")
     @Operation(summary = "Get Book by ID")
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
-    public ResponseEntity<GetBookResponse> getBook(
+    public ResponseEntity<GetBookResponse> get(
             @PathVariable("id") final Long id
     ){
-        GetBookResponse response = bookService.getBookById(id);
+        GetBookResponse response = bookService.getById(id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/get-all")
     @Operation(summary = "Get all Books")
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
-    public ResponseEntity<GetBooksResponse> getALlBooks() {
-        GetBooksResponse response = bookService.getAllBooks();
+    public ResponseEntity<GetBooksResponse> getALl() {
+        GetBooksResponse response = bookService.getAll();
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/add")
     @Operation(summary = "Save a Book")
     @ApiResponse(responseCode = "201", description = "HTTP Status 201 CREATED")
-    public ResponseEntity<AddBookResponse> saveBook(
-            @RequestBody @Valid AddBookRequest request,
+    public ResponseEntity<SaveBookResponse> save(
+            @RequestBody @Valid SaveBookRequest request,
             UriComponentsBuilder uriBuilder
     ){
-        AddBookResponse response = bookService.addBook(request);
+        SaveBookResponse response = bookService.save(request);
         URI location = uriBuilder.path("/api/books/{id}")
                 .buildAndExpand(response.getBook().getId())
                 .toUri();
@@ -62,20 +62,20 @@ public class BookController {
     @DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Delete Book by ID")
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
-    public ResponseEntity<DeleteBookResponse> deleteBook(
+    public ResponseEntity<DeleteBookResponse> delete(
             @PathVariable("id") @Valid final Long id
     ) {
-        DeleteBookResponse response = bookService.deleteBookById(id);
+        DeleteBookResponse response = bookService.deleteById(id);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/update")
     @Operation(summary = "Update a Book")
     @ApiResponse(responseCode = "202", description = "HTTP Status 202 OK")
-    public ResponseEntity<UpdateBookResponse> updateBook(
+    public ResponseEntity<UpdateBookResponse> update(
             @RequestBody UpdateBookRequest request
     ){
-        UpdateBookResponse response = bookService.updateBook(request);
+        UpdateBookResponse response = bookService.update(request);
         return ResponseEntity.accepted().body(response);
     }
 

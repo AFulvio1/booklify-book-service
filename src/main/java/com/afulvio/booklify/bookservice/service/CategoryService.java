@@ -1,7 +1,7 @@
 package com.afulvio.booklify.bookservice.service;
 
 import com.afulvio.booklify.bookservice.dto.CategoryDTO;
-import com.afulvio.booklify.bookservice.dto.request.AddCategoryRequest;
+import com.afulvio.booklify.bookservice.dto.request.SaveCategoryRequest;
 import com.afulvio.booklify.bookservice.dto.request.UpdateCategoryRequest;
 import com.afulvio.booklify.bookservice.dto.response.*;
 import com.afulvio.booklify.bookservice.exception.notfound.CategoryNotFoundException;
@@ -26,7 +26,7 @@ public class CategoryService {
     private final CategoryMapper categoryMapper;
 
     @Transactional
-    public GetCategoryResponse getCategoryById(Long id) {
+    public GetCategoryResponse getById(Long id) {
         log.info("Start searching category with ID: {}", id);
         GetCategoryResponse response = new GetCategoryResponse();
         categoryRepository.findById(id).ifPresentOrElse(
@@ -37,7 +37,7 @@ public class CategoryService {
     }
 
     @Transactional
-    public GetCategoriesResponse getAllCategories() {
+    public GetCategoriesResponse getAll() {
         log.info("Start searching all the categories");
         List<CategoryDTO> categories = new ArrayList<>();
         categoryRepository.findAll()
@@ -46,9 +46,9 @@ public class CategoryService {
     }
 
     @Transactional
-    public AddCategoryResponse addCategory(AddCategoryRequest request) {
+    public SaveCategoryResponse save(SaveCategoryRequest request) {
         log.info("Start saving a category");
-        AddCategoryResponse response = new AddCategoryResponse();
+        SaveCategoryResponse response = new SaveCategoryResponse();
         response.setCategory(
                 categoryMapper.entityToDTO(
                         categoryRepository.save(
@@ -57,14 +57,14 @@ public class CategoryService {
     }
 
     @Transactional
-    public DeleteCategoryResponse deleteCategoryById(Long id) {
+    public DeleteCategoryResponse deleteById(Long id) {
         log.info("Start deleting a category with ID: {}", id);
         categoryRepository.deleteById(id);
         return new DeleteCategoryResponse();
     }
 
     @Transactional
-    public UpdateCategoryResponse updateCategory(UpdateCategoryRequest request) {
+    public UpdateCategoryResponse update(UpdateCategoryRequest request) {
         log.info("Start updating a category");
         UpdateCategoryResponse response = new UpdateCategoryResponse();
         categoryRepository.findById(request.getId()).ifPresentOrElse(

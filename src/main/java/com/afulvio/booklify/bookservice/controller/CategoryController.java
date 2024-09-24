@@ -1,6 +1,6 @@
 package com.afulvio.booklify.bookservice.controller;
 
-import com.afulvio.booklify.bookservice.dto.request.AddCategoryRequest;
+import com.afulvio.booklify.bookservice.dto.request.SaveCategoryRequest;
 import com.afulvio.booklify.bookservice.dto.request.UpdateCategoryRequest;
 import com.afulvio.booklify.bookservice.dto.response.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,29 +29,29 @@ public class CategoryController {
     @GetMapping("/get/{id}")
     @Operation(summary = "Get Category by ID")
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
-    public ResponseEntity<GetCategoryResponse> getCategory(
+    public ResponseEntity<GetCategoryResponse> get(
             @PathVariable("id") final Long id
     ){
-        GetCategoryResponse response = categoryService.getCategoryById(id);
+        GetCategoryResponse response = categoryService.getById(id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/get-all")
     @Operation(summary = "Get all the Categories")
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
-    public ResponseEntity<GetCategoriesResponse> getCategories(){
-        GetCategoriesResponse response = categoryService.getAllCategories();
+    public ResponseEntity<GetCategoriesResponse> getAll(){
+        GetCategoriesResponse response = categoryService.getAll();
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/add")
     @Operation(summary = "Create a Category")
     @ApiResponse(responseCode = "201", description = "HTTP Status 201 CREATED")
-    public ResponseEntity<AddCategoryResponse> saveCategory(
-            @RequestBody @Valid AddCategoryRequest request,
+    public ResponseEntity<SaveCategoryResponse> save(
+            @RequestBody @Valid SaveCategoryRequest request,
             UriComponentsBuilder uriBuilder
     ){
-        AddCategoryResponse response = categoryService.addCategory(request);
+        SaveCategoryResponse response = categoryService.save(request);
         URI location = uriBuilder.path("/api/books/{id}")
                 .buildAndExpand(response.getCategory().getId())
                 .toUri();
@@ -61,20 +61,20 @@ public class CategoryController {
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "Delete Category by ID")
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
-    public ResponseEntity<DeleteCategoryResponse> deleteCategory(
+    public ResponseEntity<DeleteCategoryResponse> delete(
             @PathVariable("id") final Long id
     ){
-        DeleteCategoryResponse response = categoryService.deleteCategoryById(id);
+        DeleteCategoryResponse response = categoryService.deleteById(id);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/update")
     @Operation(summary = "Update a Category")
     @ApiResponse(responseCode = "202", description = "HTTP Status 202 OK")
-    public ResponseEntity<UpdateCategoryResponse> updateCategory(
+    public ResponseEntity<UpdateCategoryResponse> update(
             @RequestBody UpdateCategoryRequest request
     ){
-        UpdateCategoryResponse response = categoryService.updateCategory(request);
+        UpdateCategoryResponse response = categoryService.update(request);
         return ResponseEntity.accepted().body(response);
     }
 

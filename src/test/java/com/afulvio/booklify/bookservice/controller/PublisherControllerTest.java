@@ -1,7 +1,7 @@
 package com.afulvio.booklify.bookservice.controller;
 
 import com.afulvio.booklify.bookservice.BaseIntegrationTest;
-import com.afulvio.booklify.bookservice.dto.request.AddPublisherRequest;
+import com.afulvio.booklify.bookservice.dto.request.SavePublisherRequest;
 import com.afulvio.booklify.bookservice.dto.request.UpdatePublisherRequest;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ public class PublisherControllerTest extends BaseIntegrationTest {
 
     @Test
     @Order(1)
-    public void testGetPublisher_OK() throws Exception {
+    public void testGet_OK() throws Exception {
         this.mockMvc.perform(get(BASE_URL + "/get/{id}", 8)
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
@@ -30,7 +30,7 @@ public class PublisherControllerTest extends BaseIntegrationTest {
 
     @Test
     @Order(2)
-    public void testGetPublisher_KO() throws Exception {
+    public void testGet_KO() throws Exception {
         this.mockMvc.perform(get(BASE_URL + "/get/{id}", 9)
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
@@ -53,7 +53,7 @@ public class PublisherControllerTest extends BaseIntegrationTest {
 
     @Test
     @Order(4)
-    public void testSavePublisher_OK() throws Exception {
+    public void testSave_OK() throws Exception {
         this.mockMvc.perform(post(BASE_URL + "/add")
                         .content(this.objectMapper.writeValueAsBytes(buildAddPublisherRequest()))
                         .characterEncoding("utf-8")
@@ -65,7 +65,7 @@ public class PublisherControllerTest extends BaseIntegrationTest {
 
     @Test
     @Order(5)
-    public void testUpdatePublisher_OK() throws Exception {
+    public void testUpdate_OK() throws Exception {
         this.mockMvc.perform(put(BASE_URL + "/update")
                         .content(this.objectMapper.writeValueAsBytes(buildUpdatePublisherRequest(9L)))
                         .characterEncoding("utf-8")
@@ -77,7 +77,7 @@ public class PublisherControllerTest extends BaseIntegrationTest {
 
     @Test
     @Order(6)
-    public void testUpdatePublisher_KO() throws Exception {
+    public void testUpdate_KO() throws Exception {
         this.mockMvc.perform(put(BASE_URL + "/update")
                         .content(this.objectMapper.writeValueAsBytes(buildUpdatePublisherRequest(10L)))
                         .characterEncoding("utf-8")
@@ -89,7 +89,7 @@ public class PublisherControllerTest extends BaseIntegrationTest {
 
     @Test
     @Order(7)
-    public void testDeletePublisher_OK() throws Exception {
+    public void testDelete_OK() throws Exception {
         this.mockMvc.perform(delete(BASE_URL + "/delete/{id}", 9)
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
@@ -100,8 +100,8 @@ public class PublisherControllerTest extends BaseIntegrationTest {
 
 
 
-    private AddPublisherRequest buildAddPublisherRequest() {
-        return AddPublisherRequest.builder()
+    private SavePublisherRequest buildAddPublisherRequest() {
+        return SavePublisherRequest.builder()
                 .name("Test")
                 .country("Test")
                 .zip("00000")

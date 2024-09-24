@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddCategoryResponse {
+public class SaveCategoryResponse {
 
     private CategoryDTO category;
 }

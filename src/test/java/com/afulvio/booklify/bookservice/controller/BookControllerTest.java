@@ -3,7 +3,7 @@ package com.afulvio.booklify.bookservice.controller;
 import com.afulvio.booklify.bookservice.BaseIntegrationTest;
 import com.afulvio.booklify.bookservice.dto.CategoryDTO;
 import com.afulvio.booklify.bookservice.dto.PublisherDTO;
-import com.afulvio.booklify.bookservice.dto.request.AddBookRequest;
+import com.afulvio.booklify.bookservice.dto.request.SaveBookRequest;
 import com.afulvio.booklify.bookservice.dto.request.UpdateBookRequest;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ public class BookControllerTest extends BaseIntegrationTest {
 
     @Test
     @Order(1)
-    public void testGetBook_OK() throws Exception {
+    public void testGet_OK() throws Exception {
         this.mockMvc.perform(get(BASE_URL + "/get/{id}", 1)
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
@@ -31,7 +31,7 @@ public class BookControllerTest extends BaseIntegrationTest {
 
     @Test
     @Order(2)
-    public void testGetBook_KO() throws Exception {
+    public void testGet_KO() throws Exception {
         this.mockMvc.perform(get(BASE_URL + "/get/{id}", 6)
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
@@ -54,9 +54,9 @@ public class BookControllerTest extends BaseIntegrationTest {
 
     @Test
     @Order(4)
-    public void testSaveBook_OK() throws Exception {
+    public void testSave_OK() throws Exception {
         this.mockMvc.perform(post(BASE_URL + "/add")
-                        .content(this.objectMapper.writeValueAsBytes(buildAddBookRequest("Test")))
+                        .content(this.objectMapper.writeValueAsBytes(buildSaveBookRequest("Test")))
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
                 .andDo(print())
@@ -66,9 +66,9 @@ public class BookControllerTest extends BaseIntegrationTest {
 
     @Test
     @Order(8)
-    public void testSaveBook_KO() throws Exception {
+    public void testSave_KO() throws Exception {
         this.mockMvc.perform(post(BASE_URL + "/add")
-                        .content(this.objectMapper.writeValueAsBytes(buildAddBookRequest("")))
+                        .content(this.objectMapper.writeValueAsBytes(buildSaveBookRequest("")))
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
                 .andDo(print())
@@ -77,7 +77,7 @@ public class BookControllerTest extends BaseIntegrationTest {
 
     @Test
     @Order(5)
-    public void testUpdateBook_OK() throws Exception {
+    public void testUpdate_OK() throws Exception {
         this.mockMvc.perform(put(BASE_URL + "/update")
                         .content(this.objectMapper.writeValueAsBytes(buildUpdateBookRequest(6L)))
                         .characterEncoding("utf-8")
@@ -89,7 +89,7 @@ public class BookControllerTest extends BaseIntegrationTest {
 
     @Test
     @Order(6)
-    public void testUpdateBook_KO() throws Exception {
+    public void testUpdate_KO() throws Exception {
         this.mockMvc.perform(put(BASE_URL + "/update")
                         .content(this.objectMapper.writeValueAsBytes(buildUpdateBookRequest(7L)))
                         .characterEncoding("utf-8")
@@ -101,7 +101,7 @@ public class BookControllerTest extends BaseIntegrationTest {
 
     @Test
     @Order(7)
-    public void testDeleteBook_OK() throws Exception {
+    public void testDelete_OK() throws Exception {
         this.mockMvc.perform(delete(BASE_URL + "/delete/{id}", 5)
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
@@ -109,8 +109,8 @@ public class BookControllerTest extends BaseIntegrationTest {
                 .andExpect(status().isOk());
     }
 
-    private AddBookRequest buildAddBookRequest(String author) {
-        return AddBookRequest.builder()
+    private SaveBookRequest buildSaveBookRequest(String author) {
+        return SaveBookRequest.builder()
                 .author(author)
                 .category(CategoryDTO.builder().id(1L).build())
                 .title("Test")

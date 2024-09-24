@@ -21,31 +21,31 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(
                 LocalDateTime.now(),
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                HttpStatus.INTERNAL_SERVER_ERROR,
                 "Internal Server Error",
                 ex.getMessage(),
                 request.getDescription(false)
         );
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResponseEntity.internalServerError().body(errorResponse);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(
                 LocalDateTime.now(),
-                HttpStatus.NOT_FOUND.value(),
-                "Resource not found",
+                HttpStatus.NOT_FOUND,
+                "There was an error validating your request",
                 ex.getMessage(),
                 request.getDescription(false)
         );
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        return ResponseEntity.badRequest().body(errorResponse);
     }
 
     @ExceptionHandler(BookNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleBookNotFoundException(BookNotFoundException ex, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(
                 LocalDateTime.now(),
-                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND,
                 "Book not found",
                 ex.getMessage(),
                 request.getDescription(false)
@@ -57,7 +57,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleCategoryNotFoundException(CategoryNotFoundException ex, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(
                 LocalDateTime.now(),
-                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND,
                 "Category not found",
                 ex.getMessage(),
                 request.getDescription(false)
@@ -69,7 +69,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handlePublisherNotFoundException(PublisherNotFoundException ex, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(
                 LocalDateTime.now(),
-                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND,
                 "Publisher not found",
                 ex.getMessage(),
                 request.getDescription(false)

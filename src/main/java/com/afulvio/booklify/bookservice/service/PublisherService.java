@@ -1,7 +1,7 @@
 package com.afulvio.booklify.bookservice.service;
 
 import com.afulvio.booklify.bookservice.dto.PublisherDTO;
-import com.afulvio.booklify.bookservice.dto.request.AddPublisherRequest;
+import com.afulvio.booklify.bookservice.dto.request.SavePublisherRequest;
 import com.afulvio.booklify.bookservice.dto.request.UpdatePublisherRequest;
 import com.afulvio.booklify.bookservice.dto.response.*;
 import com.afulvio.booklify.bookservice.exception.notfound.PublisherNotFoundException;
@@ -26,7 +26,7 @@ public class PublisherService {
     private final PublisherMapper publisherMapper;
 
     @Transactional
-    public GetPublisherResponse getPublisherById(Long id) {
+    public GetPublisherResponse getById(Long id) {
         log.info("Start searching publisher with ID: {}", id);
         GetPublisherResponse response = new GetPublisherResponse();
         publisherRepository.findById(id).ifPresentOrElse(
@@ -37,7 +37,7 @@ public class PublisherService {
     }
 
     @Transactional
-    public GetPublishersResponse getAllPublishers() {
+    public GetPublishersResponse getAll() {
         log.info("Start searching all the publishers");
         List<PublisherDTO> publishers = new ArrayList<>();
         publisherRepository.findAll()
@@ -46,9 +46,9 @@ public class PublisherService {
     }
 
     @Transactional
-    public AddPublisherResponse addPublisher(AddPublisherRequest request) {
+    public SavePublisherResponse save(SavePublisherRequest request) {
         log.info("Start saving a publisher");
-        AddPublisherResponse response = new AddPublisherResponse();
+        SavePublisherResponse response = new SavePublisherResponse();
         response.setPublisher(publisherMapper.entityToDTO(
                 publisherRepository.save(
                         publisherMapper.requestToEntity(request))));
@@ -56,7 +56,7 @@ public class PublisherService {
     }
 
     @Transactional
-    public DeletePublisherResponse deletePublisherById(Long id) {
+    public DeletePublisherResponse deleteById(Long id) {
         log.info("Start deleting a publisher with ID: {}", id);
         DeletePublisherResponse response = new DeletePublisherResponse();
         publisherRepository.deleteById(id);
@@ -64,7 +64,7 @@ public class PublisherService {
     }
 
     @Transactional
-    public UpdatePublisherResponse updatePublisher(UpdatePublisherRequest request) {
+    public UpdatePublisherResponse update(UpdatePublisherRequest request) {
         log.info("Start updating a publisher");
         UpdatePublisherResponse response = new UpdatePublisherResponse();
         publisherRepository.findById(request.getId()).ifPresentOrElse(

@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 @Data @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddBookRequest {
+public class SaveBookRequest {
 
     @Valid @NotNull
     private CategoryDTO category;
