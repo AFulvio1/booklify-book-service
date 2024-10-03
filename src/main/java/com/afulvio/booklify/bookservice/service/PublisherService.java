@@ -4,6 +4,7 @@ import com.afulvio.booklify.bookservice.dto.PublisherDTO;
 import com.afulvio.booklify.bookservice.dto.request.SavePublisherRequest;
 import com.afulvio.booklify.bookservice.dto.request.UpdatePublisherRequest;
 import com.afulvio.booklify.bookservice.dto.response.*;
+import com.afulvio.booklify.bookservice.entity.PublisherEntity;
 import com.afulvio.booklify.bookservice.exception.notfound.PublisherNotFoundException;
 import com.afulvio.booklify.bookservice.mapper.PublisherMapper;
 import com.afulvio.booklify.bookservice.model.LocalError;
@@ -49,9 +50,15 @@ public class PublisherService {
     public SavePublisherResponse save(SavePublisherRequest request) {
         log.info("Start saving a publisher");
         SavePublisherResponse response = new SavePublisherResponse();
-        response.setPublisher(publisherMapper.entityToDTO(
-                publisherRepository.save(
-                        publisherMapper.requestToEntity(request))));
+        publisherRepository.findByName(request.getName()).ifPresentOrElse(
+                entity -> {
+                    throw new PublisherNotFoundException(LocalError.E014.getMessage());
+                },
+                () -> {
+                    PublisherEntity savedPublisher = publisherRepository.save(publisherMapper.requestToEntity(request));
+                    response.setPublisher(publisherMapper.entityToDTO(savedPublisher));
+                }
+        );
         return response;
     }
 
@@ -68,10 +75,10 @@ public class PublisherService {
         log.info("Start updating a publisher");
         UpdatePublisherResponse response = new UpdatePublisherResponse();
         publisherRepository.findById(request.getId()).ifPresentOrElse(
-                entity -> response.setPublisher(
-                        publisherMapper.entityToDTO(
-                                publisherRepository.save(
-                                        publisherMapper.requestToEntity(request)))),
+                entity -> {
+                    publisherMapper.updateFromRequest(request, entity);
+                    response.setPublisher(publisherMapper.entityToDTO(publisherRepository.save(entity)));
+                },
                 () -> { throw new PublisherNotFoundException(LocalError.E015.getMessage()); }
         );
         return response;

@@ -70,7 +70,8 @@ public class CategoryControllerTest extends BaseIntegrationTest {
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
                 .andDo(print())
-                .andExpect(status().isNotFound());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("There was an error validating your request"));
     }
 
     @Test

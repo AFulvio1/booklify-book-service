@@ -5,20 +5,16 @@ import com.afulvio.booklify.bookservice.dto.request.SaveCategoryRequest;
 import com.afulvio.booklify.bookservice.dto.request.UpdateCategoryRequest;
 import com.afulvio.booklify.bookservice.entity.CategoryEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface CategoryMapper {
 
     CategoryDTO entityToDTO(CategoryEntity categoryEntity);
-
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "books", ignore = true)
-    @Mapping(target = "tms", ignore = true)
+    
     CategoryEntity requestToEntity(SaveCategoryRequest request);
 
-    @Mapping(target = "books", ignore = true)
-    @Mapping(target = "tms", ignore = true)
-    CategoryEntity requestToEntity(UpdateCategoryRequest request);
+    void updateFromRequest(UpdateCategoryRequest request, @MappingTarget CategoryEntity entity);
 
 }

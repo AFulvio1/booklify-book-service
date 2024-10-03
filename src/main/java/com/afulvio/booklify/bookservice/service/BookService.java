@@ -49,9 +49,15 @@ public class BookService {
     public SaveBookResponse save(SaveBookRequest request) {
         log.info("Start saving a book");
         SaveBookResponse response = new SaveBookResponse();
-        response.setBook(bookMapper.entityToDTO(
-                bookRepository.save(
-                        bookMapper.requestToEntity(request))));
+        bookRepository.findByIsbn(request.getIsbn()).ifPresentOrElse(
+                book -> {
+                    throw new BookNotFoundException(LocalError.E010.getMessage());
+                },
+                () -> {
+                    BookEntity savedBook = bookRepository.save(bookMapper.requestToEntity(request));
+                    response.setBook(bookMapper.entityToDTO(savedBook));
+                }
+        );
         return response;
     }
 
@@ -67,7 +73,10 @@ public class BookService {
         log.info("Start updating a book with ID: {}", request.getId());
         UpdateBookResponse response = new UpdateBookResponse();
         bookRepository.findById(request.getId()).ifPresentOrElse(
-            entity -> response.setBook(bookMapper.entityToDTO(bookRepository.save(bookMapper.requestToEntity(request)))),
+            entity -> {
+                bookMapper.updateFromRequest(request,entity);
+                response.setBook(bookMapper.entityToDTO(bookRepository.save(entity)));
+            },
             () -> { throw new BookNotFoundException(LocalError.E011.getMessage()); }
         );
         return response;

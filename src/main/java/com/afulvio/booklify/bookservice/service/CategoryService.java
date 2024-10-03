@@ -4,6 +4,7 @@ import com.afulvio.booklify.bookservice.dto.CategoryDTO;
 import com.afulvio.booklify.bookservice.dto.request.SaveCategoryRequest;
 import com.afulvio.booklify.bookservice.dto.request.UpdateCategoryRequest;
 import com.afulvio.booklify.bookservice.dto.response.*;
+import com.afulvio.booklify.bookservice.entity.CategoryEntity;
 import com.afulvio.booklify.bookservice.exception.notfound.CategoryNotFoundException;
 import com.afulvio.booklify.bookservice.mapper.CategoryMapper;
 import com.afulvio.booklify.bookservice.model.LocalError;
@@ -49,10 +50,15 @@ public class CategoryService {
     public SaveCategoryResponse save(SaveCategoryRequest request) {
         log.info("Start saving a category");
         SaveCategoryResponse response = new SaveCategoryResponse();
-        response.setCategory(
-                categoryMapper.entityToDTO(
-                        categoryRepository.save(
-                                categoryMapper.requestToEntity(request))));
+        categoryRepository.findByName(request.getName()).ifPresentOrElse(
+                entity -> {
+                    throw new CategoryNotFoundException(LocalError.E012.getMessage());
+                },
+                () -> {
+                    CategoryEntity savedCategory = categoryRepository.save(categoryMapper.requestToEntity(request));
+                    response.setCategory(categoryMapper.entityToDTO(savedCategory));
+                }
+        );
         return response;
     }
 
@@ -68,8 +74,10 @@ public class CategoryService {
         log.info("Start updating a category");
         UpdateCategoryResponse response = new UpdateCategoryResponse();
         categoryRepository.findById(request.getId()).ifPresentOrElse(
-                category -> response.setCategory(categoryMapper.entityToDTO(
-                        categoryRepository.save(categoryMapper.requestToEntity(request)))),
+                entity -> {
+                    categoryMapper.updateFromRequest(request, entity);
+                    response.setCategory(categoryMapper.entityToDTO(categoryRepository.save(entity)));
+                },
                 () -> { throw new CategoryNotFoundException(LocalError.E013.getMessage()); }
         );
         log.info("Category updated");
