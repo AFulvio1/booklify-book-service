@@ -8,7 +8,17 @@
 
 CRUD APIs for the management of the books.
 
+> Spring Book 3.2.0
+
+> JDK corretto-21
+
+## Docker
+
+For build the image: `docker buildx build -t booklify-book-service:latest .`
+
 ## APIs
+
+[Swagger](http://booklify-book-service/swagger-ui/index.hmtl)
 
 ### Books `/api/books`
 - **GET** `/get/{id}`
@@ -32,10 +42,6 @@ CRUD APIs for the management of the books.
 - **DELETE** `/delete/{id}`
 
 ## Dependencies
-
-> Spring Book 3.2.0
-
-> JDK corretto-21
 
 ### Maven:
 - starter-web
