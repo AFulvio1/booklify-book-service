@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import com.afulvio.booklify.bookservice.service.BookService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -69,13 +70,14 @@ public class BookController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/update/{id}")
     @Operation(summary = "Update a Book")
     @ApiResponse(responseCode = "202", description = "HTTP Status 202 OK")
     public ResponseEntity<UpdateBookResponse> update(
+            @PathVariable @NotNull final Long id,
             @RequestBody UpdateBookRequest request
     ){
-        UpdateBookResponse response = bookService.update(request);
+        UpdateBookResponse response = bookService.update(id, request);
         return ResponseEntity.accepted().body(response);
     }
 

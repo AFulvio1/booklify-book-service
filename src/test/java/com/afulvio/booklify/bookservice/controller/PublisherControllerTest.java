@@ -66,8 +66,8 @@ public class PublisherControllerTest extends BaseIntegrationTest {
     @Test
     @Order(5)
     public void testUpdate_OK() throws Exception {
-        this.mockMvc.perform(put(BASE_URL + "/update")
-                        .content(this.objectMapper.writeValueAsBytes(buildUpdatePublisherRequest(9L)))
+        this.mockMvc.perform(put(BASE_URL + "/update/{id}", 9L)
+                        .content(this.objectMapper.writeValueAsBytes(buildUpdatePublisherRequest()))
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
                 .andDo(print())
@@ -78,8 +78,8 @@ public class PublisherControllerTest extends BaseIntegrationTest {
     @Test
     @Order(6)
     public void testUpdate_KO() throws Exception {
-        this.mockMvc.perform(put(BASE_URL + "/update")
-                        .content(this.objectMapper.writeValueAsBytes(buildUpdatePublisherRequest(10L)))
+        this.mockMvc.perform(put(BASE_URL + "/update/{id}", 10L)
+                        .content(this.objectMapper.writeValueAsBytes(buildUpdatePublisherRequest()))
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
                 .andDo(print())
@@ -108,9 +108,8 @@ public class PublisherControllerTest extends BaseIntegrationTest {
                 .build();
     }
 
-    private UpdatePublisherRequest buildUpdatePublisherRequest(Long id) {
+    private UpdatePublisherRequest buildUpdatePublisherRequest() {
         return UpdatePublisherRequest.builder()
-                .id(id)
                 .name("Test Renamed")
                 .build();
     }

@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -68,13 +69,14 @@ public class PublisherController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/update/{id}")
     @Operation(summary = "Update a Publisher")
     @ApiResponse(responseCode = "202", description = "HTTP Status 202 OK")
     public ResponseEntity<UpdatePublisherResponse> update(
+            @PathVariable @Valid @NotNull final Long id,
             @RequestBody UpdatePublisherRequest request
     ){
-        UpdatePublisherResponse response = publisherService.update(request);
+        UpdatePublisherResponse response = publisherService.update(id, request);
         return ResponseEntity.accepted().body(response);
     }
     

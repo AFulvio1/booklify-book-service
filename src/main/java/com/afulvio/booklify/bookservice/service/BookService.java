@@ -69,10 +69,10 @@ public class BookService {
     }
 
     @Transactional
-    public UpdateBookResponse update(UpdateBookRequest request) {
-        log.info("Start updating a book with ID: {}", request.getId());
+    public UpdateBookResponse update(Long id, UpdateBookRequest request) {
+        log.info("Start updating a book with ID: {}", id);
         UpdateBookResponse response = new UpdateBookResponse();
-        bookRepository.findById(request.getId()).ifPresentOrElse(
+        bookRepository.findById(id).ifPresentOrElse(
             entity -> {
                 bookMapper.updateFromRequest(request,entity);
                 response.setBook(bookMapper.entityToDTO(bookRepository.save(entity)));

@@ -71,10 +71,10 @@ public class PublisherService {
     }
 
     @Transactional
-    public UpdatePublisherResponse update(UpdatePublisherRequest request) {
-        log.info("Start updating a publisher");
+    public UpdatePublisherResponse update(Long id, UpdatePublisherRequest request) {
+        log.info("Start updating a publisher with ID: {}", id);
         UpdatePublisherResponse response = new UpdatePublisherResponse();
-        publisherRepository.findById(request.getId()).ifPresentOrElse(
+        publisherRepository.findById(id).ifPresentOrElse(
                 entity -> {
                     publisherMapper.updateFromRequest(request, entity);
                     response.setPublisher(publisherMapper.entityToDTO(publisherRepository.save(entity)));

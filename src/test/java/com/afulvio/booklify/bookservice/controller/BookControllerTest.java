@@ -79,8 +79,8 @@ public class BookControllerTest extends BaseIntegrationTest {
     @Test
     @Order(5)
     public void testUpdate_OK() throws Exception {
-        this.mockMvc.perform(put(BASE_URL + "/update")
-                        .content(this.objectMapper.writeValueAsBytes(buildUpdateBookRequest(6L)))
+        this.mockMvc.perform(put(BASE_URL + "/update/{id}", 6L)
+                        .content(this.objectMapper.writeValueAsBytes(buildUpdateBookRequest()))
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
                 .andDo(print())
@@ -91,8 +91,8 @@ public class BookControllerTest extends BaseIntegrationTest {
     @Test
     @Order(6)
     public void testUpdate_KO() throws Exception {
-        this.mockMvc.perform(put(BASE_URL + "/update")
-                        .content(this.objectMapper.writeValueAsBytes(buildUpdateBookRequest(7L)))
+        this.mockMvc.perform(put(BASE_URL + "/update/{id}", 7L)
+                        .content(this.objectMapper.writeValueAsBytes(buildUpdateBookRequest()))
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
                 .andDo(print())
@@ -119,9 +119,8 @@ public class BookControllerTest extends BaseIntegrationTest {
                 .build();
     }
 
-    private UpdateBookRequest buildUpdateBookRequest(Long id) {
+    private UpdateBookRequest buildUpdateBookRequest() {
         return UpdateBookRequest.builder()
-                .id(id)
                 .author("Test Renamed")
                 .build();
     }

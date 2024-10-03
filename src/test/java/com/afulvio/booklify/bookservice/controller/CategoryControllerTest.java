@@ -77,8 +77,8 @@ public class CategoryControllerTest extends BaseIntegrationTest {
     @Test
     @Order(5)
     public void testUpdate_OK() throws Exception {
-        this.mockMvc.perform(put(BASE_URL + "/update")
-                        .content(this.objectMapper.writeValueAsBytes(buildUpdateCategoryRequest(11L)))
+        this.mockMvc.perform(put(BASE_URL + "/update/{id}", 11L)
+                        .content(this.objectMapper.writeValueAsBytes(buildUpdateCategoryRequest()))
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
                 .andDo(print())
@@ -89,8 +89,8 @@ public class CategoryControllerTest extends BaseIntegrationTest {
     @Test
     @Order(6)
     public void testUpdate_KO() throws Exception {
-        this.mockMvc.perform(put(BASE_URL + "/update")
-                        .content(this.objectMapper.writeValueAsBytes(buildUpdateCategoryRequest(12L)))
+        this.mockMvc.perform(put(BASE_URL + "/update/{id}", 12L)
+                        .content(this.objectMapper.writeValueAsBytes(buildUpdateCategoryRequest()))
                         .characterEncoding("utf-8")
                         .contentType(MediaTypes.HAL_JSON))
                 .andDo(print())
@@ -117,9 +117,8 @@ public class CategoryControllerTest extends BaseIntegrationTest {
                 .build();
     }
 
-    private UpdateCategoryRequest buildUpdateCategoryRequest(Long id) {
+    private UpdateCategoryRequest buildUpdateCategoryRequest() {
         return UpdateCategoryRequest.builder()
-                .id(id)
                 .name("Test Renamed")
                 .build();
     }

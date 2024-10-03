@@ -33,6 +33,11 @@ CRUD APIs for the management of the books.
 
 ## Dependencies
 
+> Spring Book 3.2.0
+
+> JDK corretto-21
+
+### Maven:
 - starter-web
 - starter-test
 - starter-actuator

@@ -70,10 +70,10 @@ public class CategoryService {
     }
 
     @Transactional
-    public UpdateCategoryResponse update(UpdateCategoryRequest request) {
-        log.info("Start updating a category");
+    public UpdateCategoryResponse update(Long id, UpdateCategoryRequest request) {
+        log.info("Start updating a category with ID: {}", id);
         UpdateCategoryResponse response = new UpdateCategoryResponse();
-        categoryRepository.findById(request.getId()).ifPresentOrElse(
+        categoryRepository.findById(id).ifPresentOrElse(
                 entity -> {
                     categoryMapper.updateFromRequest(request, entity);
                     response.setCategory(categoryMapper.entityToDTO(categoryRepository.save(entity)));
