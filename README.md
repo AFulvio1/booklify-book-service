@@ -12,6 +12,8 @@ CRUD APIs for the management of the books.
 
 > JDK corretto-21
 
+
+
 ## Docker
 
 For build the image: `docker buildx build -t booklify-book-service:latest .`
