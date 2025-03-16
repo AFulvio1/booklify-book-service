@@ -16,12 +16,12 @@ This microservice is designed for book management. It is currently used by the w
 
 ## 🚀 Technologies Used
 
-- **Java 17**
-- **Spring Boot 2.x / 3.x**
-- **Spring Cloud** (se applicabile)
-- **Docker** (se applicabile)
-- **Database**: PostgreSQL / MySQL / MongoDB
-- **Messaging**: Kafka / RabbitMQ (se presente)
+- **Java 21**
+- **Spring Boot 3.2.0**
+- **Spring Cloud**
+- **Docker**
+- **Database**: PostgreSQL
+- **Messaging**: IN PROGRESS
 
 ## 📦 Installazione e Setup
 
@@ -29,8 +29,8 @@ This microservice is designed for book management. It is currently used by the w
 
 - [Java 21](https://adoptium.net/)
 - [Maven 3.9.8](https://maven.apache.org/)
-- Docker
-- Database: PostgreSQL
+- [Docker](https://www.docker.com/)
+- [PostgreSQL](https://www.postgresql.org/)
 
 ### 2️⃣ Cloning the repository
 
@@ -69,33 +69,33 @@ docker-compose up -d
 
 > Books
 
-| Metodo | Endpoint                 | Descrizione            | Autenticazione |
-| ------ |--------------------------| ---------------------- | -------------- |
-| GET    | `/api/books/get/{id}`    | Ottiene una risorsa    | 🔒 JWT Token   |
-| GET    | `/api/books/get-all`     | Ottiene una risorsa    | 🔒 JWT Token   |
-| POST   | `/api/books/add`         | Crea una nuova risorsa | 🔒 JWT Token   |
-| PUT    | `/api/books/update`      | Aggiorna una risorsa   | 🔒 JWT Token   |
-| DELETE | `/api/books/delete/{id}` | Elimina una risorsa    | 🔒 JWT Token   |
+| Metodo | Endpoint                  | Descrizione        | Autenticazione |
+| ------ |---------------------------|--------------------| -------------- |
+| GET    | `/api/books/get/{id}`     | Retrieve a book    | 🔒 JWT Token   |
+| GET    | `/api/books/get-all`      | Retrieve all books | 🔒 JWT Token   |
+| POST   | `/api/books/add`          | Save a new book    | 🔒 JWT Token   |
+| PUT    | `/api/books/{id}/update`  | Update a book      | 🔒 JWT Token   |
+| DELETE | `/api/books/{id}/delete` | Delete a book      | 🔒 JWT Token   |
 
 > Categories
 
-| Metodo | Endpoint                      | Descrizione            | Autenticazione |
-| ------ |-------------------------------| ---------------------- | -------------- |
-| GET    | `/api/categories/get/{id}`    | Ottiene una risorsa    | 🔒 JWT Token   |
-| GET    | `/api/categories/get-all`     | Ottiene una risorsa    | 🔒 JWT Token   |
-| POST   | `/api/categories/add`         | Crea una nuova risorsa | 🔒 JWT Token   |
-| PUT    | `/api/categories/update`      | Aggiorna una risorsa   | 🔒 JWT Token   |
-| DELETE | `/api/categories/delete/{id}` | Elimina una risorsa    | 🔒 JWT Token   |
+| Metodo | Endpoint                      | Descrizione             | Autenticazione |
+| ------ |-------------------------------|-------------------------| -------------- |
+| GET    | `/api/categories/get/{id}`    | Retrieve a category     | 🔒 JWT Token   |
+| GET    | `/api/categories/get-all`     | Retrieve all categories | 🔒 JWT Token   |
+| POST   | `/api/categories/add`         | Save a new category     | 🔒 JWT Token   |
+| PUT    | `/api/categories/update`      | Update a category       | 🔒 JWT Token   |
+| DELETE | `/api/categories/delete/{id}` | Delete a category       | 🔒 JWT Token   |
 
 > Publishers
 
-| Metodo | Endpoint                      | Descrizione            | Autenticazione |
-| ------ |-------------------------------| ---------------------- | -------------- |
-| GET    | `/api/publishers/get/{id}`    | Ottiene una risorsa    | 🔒 JWT Token   |
-| GET    | `/api/publishers/get-all`     | Ottiene una risorsa    | 🔒 JWT Token   |
-| POST   | `/api/publishers/add`         | Crea una nuova risorsa | 🔒 JWT Token   |
-| PUT    | `/api/publishers/update`      | Aggiorna una risorsa   | 🔒 JWT Token   |
-| DELETE | `/api/publishers/delete/{id}` | Elimina una risorsa    | 🔒 JWT Token   |
+| Metodo | Endpoint                      | Descrizione             | Autenticazione |
+| ------ |-------------------------------|-------------------------| -------------- |
+| GET    | `/api/publishers/get/{id}`    | Retrieve a publisher    | 🔒 JWT Token   |
+| GET    | `/api/publishers/get-all`     | Retrieve all publishers | 🔒 JWT Token   |
+| POST   | `/api/publishers/add`         | Save a new publisher    | 🔒 JWT Token   |
+| PUT    | `/api/publishers/update`      | Update a publisher      | 🔒 JWT Token   |
+| DELETE | `/api/publishers/delete/{id}` | Delete a publisher      | 🔒 JWT Token   |
 
 
 📌 To test the APIs, you can use [Postman](https://www.postman.com/) or `cURL`.
@@ -108,30 +108,9 @@ docker-compose up -d
   - `src/main/resources/application-local.yml`
   - `src/main/resources/application-test.yml`
 - **Security**: Spring Security + JWT
-- **Profilazione**: `dev`, `prod`, `test`
+- **Profilazione**: `local`, `test`, `docker`
 
-## 🏗 Project Structure
 
-```plaintext
-src/
- ├── main/
- │   ├── java/com/afulvio/booklify/book-service
- │   │   ├── controller/
- |   |   ├── dto/
- │   │   ├── entity/
- │   │   ├── service/
- │   │   ├── repository/
- │   │   ├── config/
- │   │   ├── model/
- │   │   ├── MicroservizioApplication.java
- │   ├── resources/
- │   │   ├── application.yml
- │   │   ├── logback.xml
- ├── test/
- │   ├── java/com/tuo-utente/microservizio/
- │   │   ├── unit/
- │   │   ├── integration/
-```
 
 ## 🔬 Testing
 
@@ -150,6 +129,7 @@ See the [`LICENSE`](./LICENSE) file for more details.
 
 - ✉️ **Email**: [antoniofulvio@outlook.it](mailto\:antoniofulvio@outlook.it)
 - 🔗 **GitHub**: [@AFulvio1](https://github.com/AFulvio1)
+- 🔗 **DockeHub**: [afulvio](https://hub.docker.com/u/afulvio)
 - 🔗 **LinkedIn**: [Antonio Fulvio](https://www.linkedin.com/in/antonio-fulvio-80a110161/)
 
 
