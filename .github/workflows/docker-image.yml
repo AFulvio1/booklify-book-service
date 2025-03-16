@@ -31,4 +31,4 @@ jobs:
           docker build . --file Dockerfile --tag booklify-book-service:latest
 
       - name: Push Docker Image
-        run: docker push afulvio/booklify-book-service:latest
+        run: docker push booklify-book-service:latest
