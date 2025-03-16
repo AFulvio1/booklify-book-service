@@ -26,8 +26,9 @@ jobs:
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Build & Push Docker image
+      - name: Build Docker image
         run: |
           docker build . --file Dockerfile --tag booklify-book-service:latest
-          docker tag afulvio/booklify-book-service:latest afulvio/booklify-book-service:latest
-          docker push afulvio/booklify-book-service:latest'
+
+      - name: Push Docker Image
+        run: docker push afulvio/booklify-book-service:latest
