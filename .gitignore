@@ -28,11 +28,11 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+### ENV FILE
+.env
+
 ### GitHub ###
 .github/
 
 ### PostgreSQL ###
 /postgresql/
-
-### ENV FILE
-.env
