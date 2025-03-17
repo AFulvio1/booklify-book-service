@@ -22,3 +22,7 @@ spring:
       mode: always
       schema-locations: classpath:mocks/scripts/booklify-h2-ddl.sql
       data-locations: classpath:mocks/scripts/booklify-h2-data.sql
+
+  cloud:
+    discovery:
+      enabled: false
