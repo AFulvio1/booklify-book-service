@@ -7,14 +7,8 @@
 ### Target
 target/
 
-### Git Ignore
-.gitignore
-
 ### ENV FILE
 .env
-
-### GitHub ###
-.github/
 
 ### PostgreSQL ###
 /postgresql/
