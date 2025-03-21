@@ -3,7 +3,6 @@
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.0-brightgreen)
 ![Java](https://img.shields.io/badge/Java-21-blue)
 ![Build](https://github.com/AFulvio1/booklify-book-service/actions/workflows/docker-image.yml/badge.svg)
-![Coverage](https://codecov.io/gh/AFulvio1/booklify-book-service/branch/master/graph/badge.svg)
 
 
 ## 📖 Description

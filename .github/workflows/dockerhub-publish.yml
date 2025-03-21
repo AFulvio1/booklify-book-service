@@ -21,15 +21,10 @@ jobs:
           java-version: '21'
 
       - name: Build with Maven
-        run: 'mvn clean install -DskipTests'
+        run: 'mvn clean package -DskipTests'
 
       - name: JUnit Tests
         run: 'mvn test'
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          files: target/site/jacoco/jacoco.xml
 
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
@@ -39,5 +34,8 @@ jobs:
           docker build . --file Dockerfile --tag booklify-book-service:latest
           docker tag booklify-book-service:latest afulvio/booklify-book-service:latest
 
-      - name: Push Docker Image
+      - name: Push Docker Image on DockerHub
         run: docker push afulvio/booklify-book-service:latest
+
+      - name: Push Docker image on GitHub
+        run: docker push ghcr.io/afulvio/booklify-book-service:${{ github.ref_name }}
