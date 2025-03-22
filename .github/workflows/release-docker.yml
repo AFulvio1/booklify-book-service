@@ -32,12 +32,12 @@ jobs:
 
       - name: Build Docker image
         run: |
-            IMAGE_NAME="ghcr.io/${{ github.repository }}/booklify-book-service:${{ github.ref_name }}"
-            echo "Building Docker image: $IMAGE_NAME"
-            docker build -t $IMAGE_NAME .
+          IMAGE_NAME="ghcr.io/${{ github.repository_owner }}/booklify-book-service:${{ github.ref_name }}"
+          echo "Building Docker image: $IMAGE_NAME"
+          docker build -t $IMAGE_NAME .
 
       - name: Push Docker image
         run: |
-            IMAGE_NAME="ghcr.io/${{ github.repository }}/booklify-book-service:${{ github.ref_name }}"
-            echo "Pushing Docker image: $IMAGE_NAME"
-            docker push $IMAGE_NAME
+          IMAGE_NAME="ghcr.io/${{ github.repository_owner }}/booklify-book-service:${{ github.ref_name }}"
+          echo "Pushing Docker image: $IMAGE_NAME"
+          docker push $IMAGE_NAME
