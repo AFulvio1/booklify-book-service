@@ -1,4 +1,4 @@
-FROM amazoncorretto:21
+FROM corretto:21
 
 LABEL authors="afulvio"
 
