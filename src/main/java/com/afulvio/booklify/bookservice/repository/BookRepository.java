@@ -13,7 +13,9 @@ public interface BookRepository extends JpaRepository<BookEntity, Long> {
 
     Optional<BookEntity> findByIsbn(String isbn);
 
+    @Query(value = "SELECT b FROM BookEntity b WHERE b.category = :idCategory")
     List<BookEntity> findByCategory(Long idCategory);
+
 
     List<BookEntity> findByTitleContaining(String keyword);
 
