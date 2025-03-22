@@ -84,7 +84,7 @@ public class BookService {
 
     @Transactional
     public List<BookEntity> getAllByCategory(Long id) {
-        return bookRepository.findAllByCategory(id);
+        return bookRepository.findByCategory(id);
     }
 
     @Transactional

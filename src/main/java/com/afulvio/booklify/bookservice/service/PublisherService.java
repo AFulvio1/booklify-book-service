@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -40,9 +41,9 @@ public class PublisherService {
     @Transactional
     public GetPublishersResponse getAll() {
         log.info("Start searching all the publishers");
-        List<PublisherDTO> publishers = new ArrayList<>();
-        publisherRepository.findAll()
-                .forEach(entity -> publishers.add(publisherMapper.entityToDTO(entity)));
+        List<PublisherDTO> publishers = publisherRepository.findAll()
+                .stream().map(publisherMapper::entityToDTO)
+                .toList();
         return new GetPublishersResponse(publishers);
     }
 

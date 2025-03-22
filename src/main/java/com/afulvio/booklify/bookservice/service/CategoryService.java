@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -40,9 +41,9 @@ public class CategoryService {
     @Transactional
     public GetCategoriesResponse getAll() {
         log.info("Start searching all the categories");
-        List<CategoryDTO> categories = new ArrayList<>();
-        categoryRepository.findAll()
-                .forEach(entity -> categories.add(categoryMapper.entityToDTO(entity)));
+        List<CategoryDTO> categories = categoryRepository.findAll().stream()
+                .map(categoryMapper::entityToDTO)
+                .toList();
         return new GetCategoriesResponse(categories);
     }
 
