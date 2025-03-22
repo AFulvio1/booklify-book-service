@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ "master" ]
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,7 +31,13 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Build Docker image
-        run: docker build -t ghcr.io/afulvio/booklify-book-service:${{ github.ref_name }} .
+        run: |
+            IMAGE_NAME="ghcr.io/${{ github.repository }}/booklify-book-service:${{ github.ref_name }}"
+            echo "Building Docker image: $IMAGE_NAME"
+            docker build -t $IMAGE_NAME .
 
       - name: Push Docker image
-        run: docker push ghcr.io/afulvio/booklify-book-service:${{ github.ref_name }}
+        run: |
+            IMAGE_NAME="ghcr.io/${{ github.repository }}/booklify-book-service:${{ github.ref_name }}"
+            echo "Pushing Docker image: $IMAGE_NAME"
+            docker push $IMAGE_NAME
