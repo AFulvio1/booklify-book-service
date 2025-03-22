@@ -2,7 +2,10 @@
 
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.0-brightgreen)
 ![Java](https://img.shields.io/badge/Java-21-blue)
-![Build](https://github.com/AFulvio1/booklify-book-service/actions/workflows/docker-image.yml/badge.svg)
+![Package](https://github.com/AFulvio1/booklify-book-service/actions/workflows/maven-publish.yml/badge.svg)
+![Dockerhub](https://github.com/AFulvio1/booklify-book-service/actions/workflows/publish-dockerhub.yml/badge.svg)
+![GithubContainer](https://github.com/AFulvio1/booklify-book-service/actions/workflows/release-docker.yml/badge.svg)
+
 
 
 ## 📖 Description
