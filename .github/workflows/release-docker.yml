@@ -3,9 +3,10 @@ name: Release Docker
 on:
   push:
     branches:
-      - main
-  release:
-    types: [published]
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build-and-push:
