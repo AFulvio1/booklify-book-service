@@ -37,9 +37,9 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t ghcr.io/afulvio1/booklify-book-service:latest .
-          docker tag ghcr.io/afulvio/booklify-book-service:latest afulvio/booklify-book-service:latest
+          docker tag ghcr.io/afulvio1/booklify-book-service:latest afulvio/booklify-book-service:latest
 
       - name: Push Docker images
         run: |
-          docker push ghcr.io/afulvio/booklify-book-service:latest
+          docker push ghcr.io/afulvio1/booklify-book-service:latest
           docker push afulvio/booklify-book-service:latest
