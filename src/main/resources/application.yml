@@ -2,7 +2,7 @@ spring:
   application:
     name: "@project.artifactId@"
   datasource:
-    url: jdbc:postgresql://postgres:5432/booklify
+    url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: pgadmin
     driver-class-name: org.postgresql.Driver

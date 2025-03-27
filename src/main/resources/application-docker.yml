@@ -2,9 +2,9 @@ spring:
   application:
     name: "@project.artifactId@"
   datasource:
-    url: jdbc:postgresql://postgres:5432/booklify
-    username: postgres
-    password: pgadmin
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:pgadmin}
     driver-class-name: org.postgresql.Driver
   jpa:
     show-sql: true
@@ -27,6 +27,6 @@ management:
 eureka:
   client:
     service-url:
-      default-zone: http://localhost:8761/eureka/
+      default-zone: ${EUREKA_SERVER:http://localhost:8761/eureka/}
     fetchRegistry: true
     register-with-eureka: true

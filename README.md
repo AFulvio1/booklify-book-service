@@ -1,13 +1,14 @@
 # Booklify Book Service
 
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.0-brightgreen)
-![Java](https://img.shields.io/badge/Java-21-blue)
 ![Maven Package](https://github.com/AFulvio1/booklify-book-service/actions/workflows/release-maven.yml/badge.svg)
 ![Docker Image](https://github.com/AFulvio1/booklify-book-service/actions/workflows/release-docker.yml/badge.svg)
 
 
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.0-brightgreen)
+![Java](https://img.shields.io/badge/Java-21-blue)
 
-## 📖 Description
+
+## Description
 
 This microservice is designed for book management. It is currently used by the web application, but in the future, it will also support a mobile app and expose external APIs for third-party integrations.
 
@@ -17,44 +18,35 @@ This microservice is designed for book management. It is currently used by the w
 
 - Future plans include providing services for a mobile app and offering public APIs.
 
-## 🚀 Technologies Used
+## Technologies Used
 
-- **Java 21**
-- **Spring Boot 3.2.0**
-- **Spring Cloud**
-- **Docker**
-- **Database**: PostgreSQL
-- **Messaging**: IN PROGRESS
-
-## 📦 Installazione e Setup
-
-### 1️⃣ Preconditions
-
-- [Java 21](https://adoptium.net/)
-- [Maven 3.9.8](https://maven.apache.org/)
+- [Java 21](https://docs.aws.amazon.com/corretto/latest/corretto-21-ug/downloads-list.html)
+- [Spring Boot 3.2.0](https://spring.io/blog/2023/11/23/spring-boot-3-2-0-available-now)
 - [Docker](https://www.docker.com/)
 - [PostgreSQL](https://www.postgresql.org/)
 
-### 2️⃣ Cloning the repository
+## Installation & Setup
+
+
+### 1️⃣  Cloning the repository
 
 ```sh
 git clone https://github.com/AFulvio1/booklify-book-service.git
 cd booklify-book-service
 ```
 
-### 3️⃣ Configure the `.env` File
+### 2️⃣ Configure the `.env` File
 
 Create a `.env` file in the project root and configure the environment variables:
 
 ```ini
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=booklify
-DB_USER=postgres
-DB_PASS=pgadmin
+DATABASE_URL=jdbc:postgresql://postgres:5432/booklify
+DATABASE_USERNAME=postgres
+DATABASE_PASSWORD=pgadmin
+EUREKA_SERVER=http://localhost:8761/eureka/
 ```
 
-### 4️⃣ Start the Service
+### 3️⃣ Start the Service
 
 #### With Maven
 
@@ -68,7 +60,7 @@ mvn spring-boot:run
 docker-compose up -d
 ```
 
-## 🔥 API Endpoints
+## API Endpoints
 
 > Books
 
@@ -101,34 +93,13 @@ docker-compose up -d
 | DELETE | `/api/publishers/delete/{id}` | Delete a publisher      | 🔒 JWT Token   |
 
 
-📌 To test the APIs, you can use [Postman](https://www.postman.com/) or `cURL`.
 
-## 🛠 Configuration
-
-- **Application Properties** :
-  - `src/main/resources/application.yml`
-  - `src/main/resources/application-docker.yml`
-  - `src/main/resources/application-local.yml`
-  - `src/main/resources/application-test.yml`
-- **Security**: Spring Security + JWT
-- **Profilazione**: `local`, `test`, `docker`
-
-
-
-## 🔬 Testing
-
-To run unit and integration tests:
-
-```sh
-mvn test
-```
-
-## 📜 License
+## License
 
 This project is distributed under the **MIT** license.\
 See the [`LICENSE`](./LICENSE) file for more details.
 
-## 📫 Contacts
+## Contacts
 
 - ✉️ **Email**: [antoniofulvio@outlook.it](mailto\:antoniofulvio@outlook.it)
 - 🔗 **GitHub**: [@AFulvio1](https://github.com/AFulvio1)

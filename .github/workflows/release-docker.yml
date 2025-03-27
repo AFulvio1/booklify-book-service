@@ -36,7 +36,11 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/afulvio1/booklify-book-service:latest .
+          docker build \
+            --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} \
+            --build-arg DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} \
+            --build-arg DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} \
+            -t ghcr.io/afulvio1/booklify-book-service:latest .
           docker tag ghcr.io/afulvio1/booklify-book-service:latest afulvio/booklify-book-service:latest
 
       - name: Push Docker images
