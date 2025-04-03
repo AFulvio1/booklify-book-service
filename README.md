@@ -1,7 +1,7 @@
 # Booklify Book Service
 
-![Maven Package](https://github.com/AFulvio1/booklify-book-service/actions/workflows/release-maven.yml/badge.svg)
-![Docker Image](https://github.com/AFulvio1/booklify-book-service/actions/workflows/release-docker.yml/badge.svg)
+![Maven Package](https://github.com/AFulvio1/booklify-book-service/actions/workflows/production.yml/badge.svg)
+![Docker Image](https://github.com/AFulvio1/booklify-book-service/actions/workflows/development.yml/badge.svg)
 
 
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.0-brightgreen)
