@@ -33,11 +33,14 @@ jobs:
             git config --global user.name "github-actions[bot]"
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Update version
-        run: |
-          echo "VERSION=1.0.${{ github.run_number }}" >> $GITHUB_ENV
-          mvn versions:set -DnewVersion=${{ env.VERSION }} -DgenerateBackupPoms=false
-          sed -i "s#booklify-book-service-[0-9]*\.[0-9]*\.[0-9]*\.jar#booklify-book-service-${VERSION}.jar#" Dockerfile
+      - name: Build dynamic version
+        run: echo "VERSION=1.0.${{ github.run_number }}" >> $GITHUB_ENV
+
+      - name: Update pom.xml version
+        run: mvn versions:set -DnewVersion=${{ env.VERSION }} -DgenerateBackupPoms=false
+
+      - name: Update Dockerfile version
+        run: sed -i "s#booklify-book-service-[0-9]*\.[0-9]*\.[0-9]*\.jar#booklify-book-service-${VERSION}.jar#" Dockerfile
 
       - name: Commit e push updates
         run: |
