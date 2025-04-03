@@ -13,7 +13,7 @@
 
     <groupId>com.afulvio.booklify</groupId>
     <artifactId>booklify-book-service</artifactId>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
 
     <name>book-service</name>
     <description>book-service</description>
