@@ -15,8 +15,8 @@
     <artifactId>booklify-book-service</artifactId>
     <version>1.0.10</version>
 
-    <name>book-service</name>
-    <description>book-service</description>
+    <name>booklify-book-service</name>
+    <description>Book Service for Booklify</description>
     <url>https://www.booklify.org/books</url>
     <licenses>
         <license>
@@ -24,6 +24,7 @@
             <url>https://www.apache.org/licenses/LICENSE-2.0</url>
         </license>
     </licenses>
+
     <developers>
         <developer>
             <name>Antonio Fulvio</name>

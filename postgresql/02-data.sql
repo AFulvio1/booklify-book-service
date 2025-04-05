@@ -1,4 +1,4 @@
-INSERT INTO public.category ("name")
+INSERT INTO public.category (name)
 VALUES
 ('Fiction'),
 ('Non-fiction'),
@@ -22,10 +22,10 @@ VALUES
 ('Bertelsmann', 'Germany', 'Gütersloh', 'Carl-Bertelsmann-Straße 270', '33311', 'https://www.bertelsmann.com/', 'info@bertelsmann.com'),
 ('Holtzbrinck Publishing Group', 'Germany', 'Stuttgart', 'Senefelderstraße 12', '70176', 'https://www.holtzbrinck.com/', 'info@holtzbrinck.com');
 
-INSERT INTO public.book (category, author, title, subtitle, "year", "language", isbn, publisher, price, tms)
+INSERT INTO public.book (category, author, title, subtitle, publication_year, language, isbn, publisher, price, tms)
 VALUES
-(8, 'J.K. Rowling', 'Harry Potter and the Philosopher''s Stone', NULL, '1997', 'EN', '9780747532743', 1, '20.00', '2023-06-30 10:00:00'),
-(11, 'George R.R. Martin', 'A Game of Thrones', NULL, '1996', 'EN', '9780553103540', 2, '25.00', '2023-06-30 10:00:00'),
-(15, 'Walter Isaacson', 'Steve Jobs', 'The Exclusive Biography', '2011', 'EN', '9781451648539', 3, '30.00', '2023-06-30 10:00:00'),
-(10, 'Philip K. Dick', 'Do Androids Dream of Electric Sheep?', NULL, '1968', 'EN', '9780345404473', 4, '18.00', '2023-06-30 10:00:00'),
-(9, 'Yuval Noah Harari', 'Sapiens: A Brief History of Humankind', NULL, '2014', 'EN', '9780062316097', 5, '22.00', '2023-06-30 10:00:00');
+(1, 'J.K. Rowling', 'Harry Potter and the Philosopher''s Stone', NULL, '1997', 'EN', '9780747532743', 1, '20.00', '2023-06-30 10:00:00'),
+(4, 'George R.R. Martin', 'A Game of Thrones', NULL, '1996', 'EN', '9780553103540', 2, '25.00', '2023-06-30 10:00:00'),
+(5, 'Walter Isaacson', 'Steve Jobs', 'The Exclusive Biography', '2011', 'EN', '9781451648539', 3, '30.00', '2023-06-30 10:00:00'),
+(3, 'Philip K. Dick', 'Do Androids Dream of Electric Sheep?', NULL, '1968', 'EN', '9780345404473', 4, '18.00', '2023-06-30 10:00:00'),
+(2, 'Yuval Noah Harari', 'Sapiens: A Brief History of Humankind', NULL, '2014', 'EN', '9780062316097', 5, '22.00', '2023-06-30 10:00:00');

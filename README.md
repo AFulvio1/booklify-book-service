@@ -60,6 +60,15 @@ mvn spring-boot:run
 docker-compose up -d
 ```
 
+### 4️⃣ See the APIs
+
+#### Swagger
+
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
+
 ## API Endpoints
 
 > Books
