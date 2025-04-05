@@ -22,7 +22,7 @@ VALUES
     (7, 'Bertelsmann', 'Germany', 'Gütersloh', 'Carl-Bertelsmann-Straße 270', '33311', 'https://www.bertelsmann.com/', 'info@bertelsmann.com'),
     (8, 'Holtzbrinck Publishing Group', 'Germany', 'Stuttgart', 'Senefelderstraße 12', '70176', 'https://www.holtzbrinck.com/', 'info@holtzbrinck.com');
 
-INSERT INTO book (id, category,author,title,title2,title3,subtitle,volume,publication_year,lang,isbn,publisher,width,length,pages,image,note,price,tms) VALUES
+INSERT INTO book (id, category,author,title,title2,title3,subtitle,volume,publication_year,language,isbn,publisher,width,length,pages,image,note,price,tms) VALUES
     (1, 1,'J.K. Rowling','Harry Potter and the Philosopher''s Stone',NULL,NULL,NULL,NULL,'1997','EN','9780747532743',1,NULL,NULL,NULL,NULL,NULL,'20.00','2023-06-30 10:00:00'),
     (2, 4,'George R.R. Martin','A Game of Thrones',NULL,NULL,NULL,NULL,'1996','EN','9780553103540',2,NULL,NULL,NULL,NULL,NULL,'25.00','2023-06-30 10:00:00'),
     (3, 8,'Walter Isaacson','Steve Jobs',NULL,NULL,'The Exclusive Biography',NULL,'2011','EN','9781451648539',3,NULL,NULL,NULL,NULL,NULL,'30.00','2023-06-30 10:00:00'),

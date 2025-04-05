@@ -29,7 +29,7 @@ CREATE TABLE book (
     subtitle varchar(50),
     volume varchar(3),
     publication_year varchar(4),
-    lang varchar(2),
+    language varchar(2),
     isbn varchar(50),
     publisher int8,
     width numeric,

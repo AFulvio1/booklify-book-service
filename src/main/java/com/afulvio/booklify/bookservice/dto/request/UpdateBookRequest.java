@@ -22,7 +22,7 @@ public class UpdateBookRequest {
     private String subtitle;
     private String volume;
     private String publication_year;
-    private String lang;
+    private String language;
     private String isbn;
     private PublisherDTO publisher;
     private BigDecimal width;

@@ -53,8 +53,8 @@ public class BookEntity implements Serializable {
     @Column(name = "publication_year")
     private String publication_year;
 
-    @Column(name = "lang")
-    private String lang;
+    @Column(name = "language")
+    private String language;
 
     @Column(name = "isbn")
     private String isbn;
