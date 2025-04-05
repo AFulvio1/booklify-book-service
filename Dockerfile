@@ -4,7 +4,7 @@ LABEL authors="afulvio"
 
 WORKDIR /app
 
-COPY target/booklify-book-service-1.0.11.jar app.jar
+COPY target/booklify-book-service-1.0.12.jar app.jar
 
 EXPOSE 8080
 
